@@ -1,0 +1,19 @@
+version: '3'
+services:
+  db:
+    container_name: proyecto_1_te
+    image: postgres:14.4
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      - ./seed.sql:/seed.sql
+      - ./drop.sql:/drop.sql
+
+volumes:
+  pgdata:
