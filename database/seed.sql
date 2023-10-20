@@ -1,3 +1,5 @@
+TRUNCATE productos, empleados, clientes, cargos, proveedores, lugares_geo, sucursales, turnos, dias, dias_turnos CASCADE;
+
 INSERT INTO productos (nombre, descripcion)
 VALUES
   ('Pan', 'Pan cuadrado para hacer sanduches'),
@@ -38,32 +40,32 @@ VALUES
 
 INSERT INTO proveedores (nombre, direccion, numero_telefonico)
 VALUES
-  ('Polar', 'Los Palos Grandes, calle la Goleada', '0412-3698745'),
-  ('Pepsico', 'La Castellana, calle el Tartago', '0412-3697435'),
-  ('Nabisco', 'El Rosal, calle el Perro', '0416-5698740'),
-  ('Bimbo', 'Altamira, calle la Tucupita', '0412-7921682'),
-  ('Capri', 'La Candelaria, calle la Rosita', '0416-6987742'),
-  ('Santa Teresa', 'Maracay, hacienda Santa Teresa', '0414-9623301');
+  ('Polar', 'Los Palos Grandes, calle la Goleada', '04123698745'),
+  ('Pepsico', 'La Castellana, calle el Tartago', '04123697435'),
+  ('Nabisco', 'El Rosal, calle el Perro', '04165698740'),
+  ('Bimbo', 'Altamira, calle la Tucupita', '04127921682'),
+  ('Capri', 'La Candelaria, calle la Rosita', '04166987742'),
+  ('Santa Teresa', 'Maracay, hacienda Santa Teresa', '04149623301');
 
 INSERT INTO lugares_geo (nombre, tipo)
 VALUES
   ('Miranda', 'estado'), ('Zulia', 'estado'), ('Sucre', 'estado'),
-  ('Bolivar', 'estado'), ('Aragua', 'estado'), ('Falcon', 'estado'),
+  ('Bolivar', 'estado'), ('Aragua', 'estado'), ('Falcon', 'estado');
 
 INSERT INTO lugares_geo (nombre, tipo, id_padre_lugar)
 VALUES
-  ('Caracas', 'Ciudad', (SELECT id FROM lugares_geo WHERE nombre = 'Miranda')),
-  ('Maracaibo', 'Ciudad', (SELECT id FROM lugares_geo WHERE nombre = 'Zulia')),
-  ('Maracay', 'Ciudad', (SELECT id FROM lugares_geo WHERE nombre = 'Aragua')),
-  ('Coro', 'Ciudad', (SELECT id FROM lugares_geo WHERE nombre = 'Falcon')),
-  ('Cumana', 'Ciudad', (SELECT id FROM lugares_geo WHERE nombre = 'Sucre'));
+  ('Caracas', 'ciudad', (SELECT id FROM lugares_geo WHERE nombre = 'Miranda')),
+  ('Maracaibo', 'ciudad', (SELECT id FROM lugares_geo WHERE nombre = 'Zulia')),
+  ('Maracay', 'ciudad', (SELECT id FROM lugares_geo WHERE nombre = 'Aragua')),
+  ('Coro', 'ciudad', (SELECT id FROM lugares_geo WHERE nombre = 'Falcon')),
+  ('Cumana', 'ciudad', (SELECT id FROM lugares_geo WHERE nombre = 'Sucre'));
 
 INSERT INTO lugares_geo (nombre, tipo, id_padre_lugar)
 VALUES
-  ('Chacao', 'Municipio', (SELECT id FROM lugares_geo WHERE nombre = 'Miranda')),
-  ('Baruta', 'Municipio', (SELECT id FROM lugares_geo WHERE nombre = 'Miranda')),
-  ('Libertador', 'Municipio', (SELECT id FROM lugares_geo WHERE nombre = 'Miranda')),
-  ('Sucre', 'Municipio', (SELECT id FROM lugares_geo WHERE nombre = 'Miranda'));
+  ('Chacao', 'municipio', (SELECT id FROM lugares_geo WHERE nombre = 'Miranda')),
+  ('Baruta', 'municipio', (SELECT id FROM lugares_geo WHERE nombre = 'Miranda')),
+  ('Libertador', 'municipio', (SELECT id FROM lugares_geo WHERE nombre = 'Miranda')),
+  ('Sucre', 'municipio', (SELECT id FROM lugares_geo WHERE nombre = 'Miranda'));
 
 INSERT INTO sucursales (direccion, id_lugar)
 VALUES
