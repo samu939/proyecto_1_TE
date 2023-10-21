@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS turnos (
 
 CREATE TABLE IF NOT EXISTS dias (
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR(8) NOT NULL UNIQUE,
+    nombre VARCHAR(10) NOT NULL UNIQUE,
     CONSTRAINT val_dias CHECK (nombre IN ('Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'))
 );
 
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS dias_turnos(
 
 CREATE TABLE IF NOT EXISTS productos (
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR(40) NOT NULL UNIQUE, 
+    nombre VARCHAR(40) NOT NULL UNIQUE,
     descripcion TEXT NOT NULL
 );
 
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS proveedores(
 
 CREATE TABLE IF NOT EXISTS clientes(
     id SERIAL PRIMARY KEY,
-    nombre1 VARCHAR(40) NOT NULL, 
+    nombre1 VARCHAR(40) NOT NULL,
     apellido1 VARCHAR(40) NOT NULL,
     apellido2 VARCHAR(40) NOT NULL,
     direccion VARCHAR(50) NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS clientes(
 CREATE TABLE IF NOT EXISTS lugares_geo(
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
-    tipo VARCHAR(6) NOT NULL,
+    tipo VARCHAR(10) NOT NULL,
     id_padre_lugar INTEGER REFERENCES lugares_geo(id),
     CONSTRAINT nombres_tipo CHECK (tipo IN ('estado','ciudad','municipio'))
 );
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS sucursales (
 CREATE TABLE IF NOT EXISTS empleados (
     id SERIAL PRIMARY KEY,
     id_sucursal INTEGER REFERENCES sucursales(id),
-    nombre1 VARCHAR(40) NOT NULL, 
+    nombre1 VARCHAR(40) NOT NULL,
     apellido1 VARCHAR(40) NOT NULL,
     apellido2 VARCHAR(40) NOT NULL,
     direccion VARCHAR(50) NOT NULL,
@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS historico_alquiler (
     fecha DATE NOT NULL,
     monto DECIMAL(10,2) NOT NULL,
     CONSTRAINT val_monto CHECK (monto >= 0),
-    PRIMARY KEY (id_sucursal,fecha)    
+    PRIMARY KEY (id_sucursal,fecha)
 );
 
 CREATE TABLE IF NOT EXISTS historico_gastos_particulares (
