@@ -11,7 +11,7 @@ services:
       POSTGRES_DB: ${DB_NAME}
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./procedures.sql:/docker-entrypoint-initdb.d/create_procedures.sql
+      - ./procedures&tda.sql:/docker-entrypoint-initdb.d/create_procedures.sql
       - ./database.sql:/docker-entrypoint-initdb.d/create_tables.sql
       - ./seed.sql:/seed.sql
       - ./drop.sql:/drop.sql
