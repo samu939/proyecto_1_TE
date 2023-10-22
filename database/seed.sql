@@ -1,4 +1,6 @@
-TRUNCATE productos, empleados, clientes, cargos, proveedores, lugares_geo, sucursales, turnos, dias, dias_turnos CASCADE;
+TRUNCATE asistencia, cargos, clientes, compra_inventario, dias, dias_turnos, empleados, factura,
+historico_alquiler, historico_cargo, historico_gastos_particulares, historico_precios, historico_promociones,
+historico_salario, historico_turno, lugares_geo, productos, proveedores, sucursales, turnos CASCADE;
 
 INSERT INTO productos (nombre, descripcion)
 VALUES
@@ -11,6 +13,28 @@ VALUES
   ('Oreo', 'Galletas de chocolate y crema de vainilla'),
   ('Coca-cola', 'Bebida azucarada efervescente');
 
+INSERT INTO historico_precios (id_producto, fecha_inicio, precio)
+VALUES
+  ((SELECT id FROM productos WHERE nombre = 'Pan'), '10-21-2020', 4),
+  ((SELECT id FROM productos WHERE nombre = 'Carton de huevos'), '10-21-2020', 3.5),
+  ((SELECT id FROM productos WHERE nombre = 'Leche'), '10-21-2020', 4),
+  ((SELECT id FROM productos WHERE nombre = 'Pasta'), '10-21-2020', 2.5),
+  ((SELECT id FROM productos WHERE nombre = 'Harina PAN'), '10-21-2020', 1.5),
+  ((SELECT id FROM productos WHERE nombre = 'Tosticos'), '10-21-2020', 3.7),
+  ((SELECT id FROM productos WHERE nombre = 'Oreo'), '10-21-2020', 4),
+  ((SELECT id FROM productos WHERE nombre = 'Coca-cola'), '10-21-2020', 3);
+
+INSERT INTO historico_promociones (id_producto, fecha_inicio_precio, fecha_inicio, descuento)
+VALUES
+  ((SELECT id FROM productos WHERE nombre = 'Pan'), '10-21-2020', '10-21-2020', 5),
+  ((SELECT id FROM productos WHERE nombre = 'Carton de huevos'), '10-21-2020', '10-21-2020', 5),
+  ((SELECT id FROM productos WHERE nombre = 'Leche'), '10-21-2020', '10-21-2020', 5),
+  ((SELECT id FROM productos WHERE nombre = 'Pasta'), '10-21-2020', '10-21-2020', 4),
+  ((SELECT id FROM productos WHERE nombre = 'Harina PAN'), '10-21-2020', '10-21-2020', 4),
+  ((SELECT id FROM productos WHERE nombre = 'Tosticos'), '10-21-2020', '10-21-2020', 4),
+  ((SELECT id FROM productos WHERE nombre = 'Oreo'), '10-21-2020', '10-21-2020', 1),
+  ((SELECT id FROM productos WHERE nombre = 'Coca-cola'), '10-21-2020', '10-21-2020', 1);
+
 INSERT INTO empleados (nombre1, nombre2, apellido1, apellido2, direccion, numero_telefonico, genero, cedula_identidad, fecha_nacimiento, activo)
 VALUES
   ('John', 'Doe', 'Smith', 'Johnson', 'Calle Principal 123', '555-1234', 'M', 'V-1234567', '1990-01-01', true),
@@ -22,7 +46,49 @@ VALUES
   ('David', 'Thomas', 'Green', 'White', 'Calle 654', '555-6789', 'M', 'V-1357924', '1987-12-25', true),
   ('Olivia', 'Isabella', 'Harris', 'Martin', 'Carrera 987', '555-9012', 'F', 'V-9872134', '1994-06-30', true);
 
-INSERT INTO clientes (nombre1, nombre2, apellido1, apellido2, direccion, numero_telefonico,cedula_identidad)
+INSERT INTO historico_salario (id_empleado, fecha_inicio, salario)
+VALUES
+  ((SELECT id FROM empleados WHERE nombre1 = 'John'), '08-12-2012', 600),
+  ((SELECT id FROM empleados WHERE nombre1 = 'Jane'), '08-25-2020', 500),
+  ((SELECT id FROM empleados WHERE nombre1 = 'Robert'), '08-12-2012', 400),
+  ((SELECT id FROM empleados WHERE nombre1 = 'Emily'), '08-12-2012', 600),
+  ((SELECT id FROM empleados WHERE nombre1 = 'Michael'), '08-12-2019', 350),
+  ((SELECT id FROM empleados WHERE nombre1 = 'Sophia'), '08-12-2017', 300),
+  ((SELECT id FROM empleados WHERE nombre1 = 'David'), '08-12-2018', 200),
+  ((SELECT id FROM empleados WHERE nombre1 = 'Olivia'), '08-25-2018', 250);
+
+INSERT INTO cargos (nombre)
+VALUES
+  ('Gerente'), ('Supervisor'), ('Cajero'),
+  ('Conserje'), ('Empaquetador'), ('Carnicero');
+
+INSERT INTO historico_cargo (id_empleado, id_cargo, fecha_inicio)
+VALUES
+  ((SELECT id FROM empleados WHERE nombre1 = 'John'), (SELECT id FROM cargos WHERE nombre = 'Gerente'), '08-12-2012'),
+  ((SELECT id FROM empleados WHERE nombre1 = 'Jane'), (SELECT id FROM cargos WHERE nombre = 'Supervisor'), '08-25-2020'),
+  ((SELECT id FROM empleados WHERE nombre1 = 'Robert'), (SELECT id FROM cargos WHERE nombre = 'Carnicero'), '08-12-2012'),
+  ((SELECT id FROM empleados WHERE nombre1 = 'Emily'), (SELECT id FROM cargos WHERE nombre = 'Gerente'), '08-12-2012'),
+  ((SELECT id FROM empleados WHERE nombre1 = 'Michael'), (SELECT id FROM cargos WHERE nombre = 'Cajero'), '08-12-2019'),
+  ((SELECT id FROM empleados WHERE nombre1 = 'Sophia'), (SELECT id FROM cargos WHERE nombre = 'Cajero'), '08-12-2017'),
+  ((SELECT id FROM empleados WHERE nombre1 = 'David'), (SELECT id FROM cargos WHERE nombre = 'Empaquetador'), '08-12-2018'),
+  ((SELECT id FROM empleados WHERE nombre1 = 'Olivia'), (SELECT id FROM cargos WHERE nombre = 'Conserje'), '08-25-2018');
+
+INSERT INTO turnos (nombre)
+VALUES
+  ('Mañana'), ('Tarde'), ('Noche');
+
+INSERT INTO historico_turno (id_empleado, id_turno, fecha_inicio)
+VALUES
+  ((SELECT id FROM empleados WHERE nombre1 = 'John'), (SELECT id FROM turnos WHERE nombre = 'Mañana'), '08-12-2012'),
+  ((SELECT id FROM empleados WHERE nombre1 = 'Jane'), (SELECT id FROM turnos WHERE nombre = 'Mañana'), '08-25-2020'),
+  ((SELECT id FROM empleados WHERE nombre1 = 'Robert'), (SELECT id FROM turnos WHERE nombre = 'Tarde'), '08-12-2012'),
+  ((SELECT id FROM empleados WHERE nombre1 = 'Emily'), (SELECT id FROM turnos WHERE nombre = 'Tarde'), '08-12-2012'),
+  ((SELECT id FROM empleados WHERE nombre1 = 'Michael'), (SELECT id FROM turnos WHERE nombre = 'Mañana'), '08-12-2019'),
+  ((SELECT id FROM empleados WHERE nombre1 = 'Sophia'), (SELECT id FROM turnos WHERE nombre = 'Noche'), '08-12-2017'),
+  ((SELECT id FROM empleados WHERE nombre1 = 'David'), (SELECT id FROM turnos WHERE nombre = 'Noche'), '08-12-2018'),
+  ((SELECT id FROM empleados WHERE nombre1 = 'Olivia'), (SELECT id FROM turnos WHERE nombre = 'Noche'), '08-25-2018');
+
+INSERT INTO clientes (nombre1, nombre2, apellido1, apellido2, direccion, numero_telefonico, cedula_identidad)
 VALUES
   ('Luis', 'Miguel', 'Sánchez', 'Gómez', 'Calle Principal 123', '555-1234','V-25469789'),
   ('María', 'Fernanda', 'Rodríguez', 'López', 'Avenida Central 456', '555-5678','V-15478963'),
@@ -32,11 +98,6 @@ VALUES
   ('Laura', 'Carolina', 'Pérez', 'Vargas', 'Avenida 321', '555-2345','V-9645721'),
   ('Diego', 'Sebastián', 'Ramírez', 'Rojas', 'Calle 654', '555-6789','V-14451214'),
   ('Valeria', 'Florencia', 'Silva', 'Luna', 'Carrera 987', '555-9012','V-13564897');
-
-INSERT INTO cargos (nombre)
-VALUES
-  ('Gerente'), ('Supervisor'), ('Cajero'),
-  ('Conserje'), ('Empaquetador'), ('Carnicero');
 
 INSERT INTO proveedores (nombre, direccion, numero_telefonico)
 VALUES
@@ -76,9 +137,24 @@ VALUES
   ('Veracruz', (SELECT id from lugares_geo WHERE nombre = 'Libertador')),
   ('Av. Andres Bello', (SELECT id from lugares_geo WHERE nombre = 'Libertador'));
 
-INSERT INTO turnos (nombre)
+INSERT INTO historico_gastos_particulares (id_sucursal, fecha, monto, descripcion)
 VALUES
-  ('Mañana'), ('Tarde'), ('Noche');
+  ((SELECT id FROM sucursales WHERE direccion = 'Edif Valmy, Avenida Francisco de Miranda'), '08-19-2017', 50, 'Reparo de nevera'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '08-19-2018', 80, 'Mantenimiento de cajeros'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '08-19-2019', 30, 'Mantenimiento de neveras'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), '08-19-2021', 300, 'Compra de equipos de refrigeracion'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), '08-10-2021', 30, 'Productos de limpieza'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), '08-19-2022', 200, 'Gastos legales'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), '08-19-2022', 70, 'Mantenimiento de luces');
+
+INSERT INTO historico_alquiler (id_sucursal, fecha, monto)
+VALUES
+  ((SELECT id FROM sucursales WHERE direccion = 'Edif Valmy, Avenida Francisco de Miranda'), '08-19-2005', 950),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '08-19-2006', 1200),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), '08-19-2008', 700),
+  ((SELECT id FROM sucursales WHERE direccion = 'Final Av Intercomunial El Hatillo'), '08-19-2004', 800),
+  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), '08-19-2005', 450),
+  ((SELECT id FROM sucursales WHERE direccion = 'Av. Andres Bello'), '08-19-2007', 300);
 
 INSERT INTO dias (nombre)
 VALUES
@@ -96,3 +172,40 @@ VALUES
   ((SELECT id FROM dias WHERE nombre = 'Domingo'), (SELECT id FROM turnos WHERE nombre = 'Mañana'), '08:00:00', '17:00:00'),
   ((SELECT id FROM dias WHERE nombre = 'Lunes'), (SELECT id FROM turnos WHERE nombre = 'Tarde'), '13:00:00', '19:00:00'),
   ((SELECT id FROM dias WHERE nombre = 'Martes'), (SELECT id FROM turnos WHERE nombre = 'Noche'), '19:00:00', '24:00:00');
+
+INSERT INTO factura (id_cliente, id_empleado, fecha, monto)
+VALUES
+  ((SELECT id FROM clientes WHERE nombre1 = 'Luis'), (SELECT id FROM empleados WHERE nombre1 = 'John'), '10-21-2023', 65.7),
+  ((SELECT id FROM clientes WHERE nombre1 = 'Luis'), (SELECT id FROM empleados WHERE nombre1 = 'Jane'), '10-01-2023', 150.2),
+  ((SELECT id FROM clientes WHERE nombre1 = 'Luis'), (SELECT id FROM empleados WHERE nombre1 = 'Robert'), '05-19-2023', 89.6),
+  ((SELECT id FROM clientes WHERE nombre1 = 'Carlos'), (SELECT id FROM empleados WHERE nombre1 = 'Robert'), '05-19-2022', 15.1),
+  ((SELECT id FROM clientes WHERE nombre1 = 'Carlos'), (SELECT id FROM empleados WHERE nombre1 = 'David'), '07-19-2022', 95.9),
+  ((SELECT id FROM clientes WHERE nombre1 = 'Carlos'), (SELECT id FROM empleados WHERE nombre1 = 'Olivia'), '05-19-2023', 210.6),
+  ((SELECT id FROM clientes WHERE nombre1 = 'Javier'), (SELECT id FROM empleados WHERE nombre1 = 'Robert'), '11-02-2022', 23.1),
+  ((SELECT id FROM clientes WHERE nombre1 = 'Laura'), (SELECT id FROM empleados WHERE nombre1 = 'David'), '12-29-2022', 49.9),
+  ((SELECT id FROM clientes WHERE nombre1 = 'Diego'), (SELECT id FROM empleados WHERE nombre1 = 'Olivia'), '12-01-2023', 60.6);
+
+INSERT INTO detalle_factura (id_factura, id_producto, fecha_inicio_precio, cantidad)
+VALUES
+  ((SELECT id FROM factura WHERE monto = 65.7), (SELECT id FROM productos WHERE nombre = 'Pan'), '10-21-2020', 2),
+  ((SELECT id FROM factura WHERE monto = 150.2), (SELECT id FROM productos WHERE nombre = 'Leche'), '10-21-2020', 1),
+  ((SELECT id FROM factura WHERE monto = 89.6), (SELECT id FROM productos WHERE nombre = 'Pasta'), '10-21-2020', 2),
+  ((SELECT id FROM factura WHERE monto = 15.1), (SELECT id FROM productos WHERE nombre = 'Tosticos'), '10-21-2020', 2),
+  ((SELECT id FROM factura WHERE monto = 95.9), (SELECT id FROM productos WHERE nombre = 'Harina PAN'), '10-21-2020', 2),
+  ((SELECT id FROM factura WHERE monto = 210.6), (SELECT id FROM productos WHERE nombre = 'Harina PAN'), '10-21-2020', 2),
+  ((SELECT id FROM factura WHERE monto = 23.1), (SELECT id FROM productos WHERE nombre = 'Oreo'), '10-21-2020', 1),
+  ((SELECT id FROM factura WHERE monto = 49.9), (SELECT id FROM productos WHERE nombre = 'Coca-cola'), '10-21-2020', 2),
+  ((SELECT id FROM factura WHERE monto = 60.6), (SELECT id FROM productos WHERE nombre = 'Carton de huevos'), '10-21-2020', 1);
+
+INSERT INTO compra_inventario (id_sucursal, id_proveedor, id_producto, fecha, cantidad, precio_unidad, gasto_transporte)
+VALUES
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), (SELECT id FROM proveedores WHERE nombre = 'Polar'), (SELECT id FROM productos WHERE nombre = 'Harina PAN'), '10-21-2023', 60, 0.8, 5),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), (SELECT id FROM proveedores WHERE nombre = 'Polar'), (SELECT id FROM productos WHERE nombre = 'Harina PAN'), '10-21-2023', 70, 0.8, 5),
+  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), (SELECT id FROM proveedores WHERE nombre = 'Polar'), (SELECT id FROM productos WHERE nombre = 'Harina PAN'), '10-21-2023', 100, 0.75, 8),
+  ((SELECT id FROM sucursales WHERE direccion = 'Av. Andres Bello'), (SELECT id FROM proveedores WHERE nombre = 'Nabisco'), (SELECT id FROM productos WHERE nombre = 'Oreo'), '05-16-2023', 40, 2, 6),
+  ((SELECT id FROM sucursales WHERE direccion = 'Final Av Intercomunial El Hatillo'), (SELECT id FROM proveedores WHERE nombre = 'Nabisco'), (SELECT id FROM productos WHERE nombre = 'Oreo'), '05-30-2023', 30, 2, 5),
+  ((SELECT id FROM sucursales WHERE direccion = 'Edif Valmy, Avenida Francisco de Miranda'), (SELECT id FROM proveedores WHERE nombre = 'Nabisco'), (SELECT id FROM productos WHERE nombre = 'Oreo'), '05-01-2023', 60, 2, 7),
+  ((SELECT id FROM sucursales WHERE direccion = 'Edif Valmy, Avenida Francisco de Miranda'), (SELECT id FROM proveedores WHERE nombre = 'Bimbo'), (SELECT id FROM productos WHERE nombre = 'Pan'), '05-01-2023', 30, 1.5, 7),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), (SELECT id FROM proveedores WHERE nombre = 'Bimbo'), (SELECT id FROM productos WHERE nombre = 'Pan'), '05-01-2023', 50, 1.5, 7),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), (SELECT id FROM proveedores WHERE nombre = 'Bimbo'), (SELECT id FROM productos WHERE nombre = 'Pan'), '05-01-2023', 40, 1.5, 7);
+
