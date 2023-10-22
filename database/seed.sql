@@ -35,27 +35,26 @@ VALUES
   ((SELECT id FROM productos WHERE nombre = 'Oreo'), '10-21-2020', '10-21-2020', 1),
   ((SELECT id FROM productos WHERE nombre = 'Coca-cola'), '10-21-2020', '10-21-2020', 1);
 
-INSERT INTO empleados (nombre1, nombre2, apellido1, apellido2, direccion, numero_telefonico, genero, cedula_identidad, fecha_nacimiento, activo)
-VALUES
-  ('John', 'Doe', 'Smith', 'Johnson', 'Calle Principal 123', '555-1234', 'M', 'V-1234567', '1990-01-01', true),
-  ('Jane', 'Mary', 'Johnson', 'Doe', 'Avenida Central 456', '555-5678', 'F', 'V-9876543', '1985-05-10', true),
-  ('Robert', 'Lee', 'Williams', 'Brown', 'Carrera 789', '555-9012', 'M', 'V-2468135', '1993-11-15', true),
-  ('Emily', 'Rose', 'Taylor', 'Clark', 'Avenida 987', '555-3456', 'F', 'V-5432167', '1992-09-20', true),
-  ('Michael', 'James', 'Anderson', 'Wilson', 'Boulevard 654', '555-7890', 'M', 'V-7896543', '1988-07-05', true),
-  ('Sophia', 'Grace', 'Parker', 'Cooper', 'Avenida 321', '555-2345', 'F', 'V-3214567', '1991-03-08', true),
-  ('David', 'Thomas', 'Green', 'White', 'Calle 654', '555-6789', 'M', 'V-1357924', '1987-12-25', true),
-  ('Olivia', 'Isabella', 'Harris', 'Martin', 'Carrera 987', '555-9012', 'F', 'V-9872134', '1994-06-30', true);
+
+INSERT INTO empleados (datos, genero, fecha_nacimiento, activo) VALUES  (check_null_datos('John', 'Doe', 'Smith', 'Johnson', 'Calle Principal 123', unique_cedula(format_cedula('V-1234567'),'empleados'), '555-1234'), 'M', '1990-01-01', true);
+INSERT INTO empleados (datos, genero, fecha_nacimiento, activo) VALUES  (check_null_datos('Jane', 'Mary', 'Johnson', 'Doe', 'Avenida Central 456', unique_cedula(format_cedula('V-9876543'),'empleados'), '555-5678'), 'F', '1985-05-10', true);
+INSERT INTO empleados (datos, genero, fecha_nacimiento, activo) VALUES  (check_null_datos('Robert', 'Lee', 'Williams', 'Brown', 'Carrera 789', unique_cedula(format_cedula('V-2468135'),'empleados'), '555-9012'), 'M', '1993-11-15', true);
+INSERT INTO empleados (datos, genero, fecha_nacimiento, activo) VALUES  (check_null_datos('Emily', 'Rose', 'Taylor', 'Clark', 'Avenida 987', unique_cedula(format_cedula('V-5432167'),'empleados'), '555-3456'), 'F', '1992-09-20', true);
+INSERT INTO empleados (datos, genero, fecha_nacimiento, activo) VALUES  (check_null_datos('Michael', 'James', 'Anderson', 'Wilson', 'Boulevard 654', unique_cedula(format_cedula('V-7896543'),'empleados'), '555-7890'), 'M', '1988-07-05', true);
+INSERT INTO empleados (datos, genero, fecha_nacimiento, activo) VALUES  (check_null_datos('Sophia', 'Grace', 'Parker', 'Cooper', 'Avenida 321', unique_cedula(format_cedula('V-3214567'),'empleados'), '555-2345'), 'F', '1991-03-08', true);
+INSERT INTO empleados (datos, genero, fecha_nacimiento, activo) VALUES  (check_null_datos('David', 'Thomas', 'Green', 'White', 'Calle 654', unique_cedula(format_cedula('V-1357924'),'empleados'), '555-6789'), 'M', '1987-12-25', true);
+INSERT INTO empleados (datos, genero, fecha_nacimiento, activo) VALUES  (check_null_datos('Olivia', 'Isabella', 'Harris', 'Martin', 'Carrera 987', unique_cedula(format_cedula('V-9872134'),'empleados'), '555-9012'), 'F', '1994-06-30', true);
 
 INSERT INTO historico_salario (id_empleado, fecha_inicio, salario)
 VALUES
-  ((SELECT id FROM empleados WHERE nombre1 = 'John'), '08-12-2012', 600),
-  ((SELECT id FROM empleados WHERE nombre1 = 'Jane'), '08-25-2020', 500),
-  ((SELECT id FROM empleados WHERE nombre1 = 'Robert'), '08-12-2012', 400),
-  ((SELECT id FROM empleados WHERE nombre1 = 'Emily'), '08-12-2012', 600),
-  ((SELECT id FROM empleados WHERE nombre1 = 'Michael'), '08-12-2019', 350),
-  ((SELECT id FROM empleados WHERE nombre1 = 'Sophia'), '08-12-2017', 300),
-  ((SELECT id FROM empleados WHERE nombre1 = 'David'), '08-12-2018', 200),
-  ((SELECT id FROM empleados WHERE nombre1 = 'Olivia'), '08-25-2018', 250);
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'John'), '08-12-2012', 600),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Jane'), '08-25-2020', 500),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Robert'), '08-12-2012', 400),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Emily'), '08-12-2012', 600),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Michael'), '08-12-2019', 350),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Sophia'), '08-12-2017', 300),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'David'), '08-12-2018', 200),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Olivia'), '08-25-2018', 250);
 
 INSERT INTO cargos (nombre)
 VALUES
@@ -64,14 +63,14 @@ VALUES
 
 INSERT INTO historico_cargo (id_empleado, id_cargo, fecha_inicio)
 VALUES
-  ((SELECT id FROM empleados WHERE nombre1 = 'John'), (SELECT id FROM cargos WHERE nombre = 'Gerente'), '08-12-2012'),
-  ((SELECT id FROM empleados WHERE nombre1 = 'Jane'), (SELECT id FROM cargos WHERE nombre = 'Supervisor'), '08-25-2020'),
-  ((SELECT id FROM empleados WHERE nombre1 = 'Robert'), (SELECT id FROM cargos WHERE nombre = 'Carnicero'), '08-12-2012'),
-  ((SELECT id FROM empleados WHERE nombre1 = 'Emily'), (SELECT id FROM cargos WHERE nombre = 'Gerente'), '08-12-2012'),
-  ((SELECT id FROM empleados WHERE nombre1 = 'Michael'), (SELECT id FROM cargos WHERE nombre = 'Cajero'), '08-12-2019'),
-  ((SELECT id FROM empleados WHERE nombre1 = 'Sophia'), (SELECT id FROM cargos WHERE nombre = 'Cajero'), '08-12-2017'),
-  ((SELECT id FROM empleados WHERE nombre1 = 'David'), (SELECT id FROM cargos WHERE nombre = 'Empaquetador'), '08-12-2018'),
-  ((SELECT id FROM empleados WHERE nombre1 = 'Olivia'), (SELECT id FROM cargos WHERE nombre = 'Conserje'), '08-25-2018');
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'John'), (SELECT id FROM cargos WHERE nombre = 'Gerente'), '08-12-2012'),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Jane'), (SELECT id FROM cargos WHERE nombre = 'Supervisor'), '08-25-2020'),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Robert'), (SELECT id FROM cargos WHERE nombre = 'Carnicero'), '08-12-2012'),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Emily'), (SELECT id FROM cargos WHERE nombre = 'Gerente'), '08-12-2012'),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Michael'), (SELECT id FROM cargos WHERE nombre = 'Cajero'), '08-12-2019'),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Sophia'), (SELECT id FROM cargos WHERE nombre = 'Cajero'), '08-12-2017'),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'David'), (SELECT id FROM cargos WHERE nombre = 'Empaquetador'), '08-12-2018'),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Olivia'), (SELECT id FROM cargos WHERE nombre = 'Conserje'), '08-25-2018');
 
 INSERT INTO turnos (nombre)
 VALUES
@@ -79,25 +78,24 @@ VALUES
 
 INSERT INTO historico_turno (id_empleado, id_turno, fecha_inicio)
 VALUES
-  ((SELECT id FROM empleados WHERE nombre1 = 'John'), (SELECT id FROM turnos WHERE nombre = 'Mañana'), '08-12-2012'),
-  ((SELECT id FROM empleados WHERE nombre1 = 'Jane'), (SELECT id FROM turnos WHERE nombre = 'Mañana'), '08-25-2020'),
-  ((SELECT id FROM empleados WHERE nombre1 = 'Robert'), (SELECT id FROM turnos WHERE nombre = 'Tarde'), '08-12-2012'),
-  ((SELECT id FROM empleados WHERE nombre1 = 'Emily'), (SELECT id FROM turnos WHERE nombre = 'Tarde'), '08-12-2012'),
-  ((SELECT id FROM empleados WHERE nombre1 = 'Michael'), (SELECT id FROM turnos WHERE nombre = 'Mañana'), '08-12-2019'),
-  ((SELECT id FROM empleados WHERE nombre1 = 'Sophia'), (SELECT id FROM turnos WHERE nombre = 'Noche'), '08-12-2017'),
-  ((SELECT id FROM empleados WHERE nombre1 = 'David'), (SELECT id FROM turnos WHERE nombre = 'Noche'), '08-12-2018'),
-  ((SELECT id FROM empleados WHERE nombre1 = 'Olivia'), (SELECT id FROM turnos WHERE nombre = 'Noche'), '08-25-2018');
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'John'), (SELECT id FROM turnos WHERE nombre = 'Mañana'), '08-12-2012'),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Jane'), (SELECT id FROM turnos WHERE nombre = 'Mañana'), '08-25-2020'),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Robert'), (SELECT id FROM turnos WHERE nombre = 'Tarde'), '08-12-2012'),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Emily'), (SELECT id FROM turnos WHERE nombre = 'Tarde'), '08-12-2012'),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Michael'), (SELECT id FROM turnos WHERE nombre = 'Mañana'), '08-12-2019'),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Sophia'), (SELECT id FROM turnos WHERE nombre = 'Noche'), '08-12-2017'),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'David'), (SELECT id FROM turnos WHERE nombre = 'Noche'), '08-12-2018'),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Olivia'), (SELECT id FROM turnos WHERE nombre = 'Noche'), '08-25-2018');
 
-INSERT INTO clientes (nombre1, nombre2, apellido1, apellido2, direccion, numero_telefonico, cedula_identidad)
-VALUES
-  ('Luis', 'Miguel', 'Sánchez', 'Gómez', 'Calle Principal 123', '555-1234','V-25469789'),
-  ('María', 'Fernanda', 'Rodríguez', 'López', 'Avenida Central 456', '555-5678','V-15478963'),
-  ('Carlos', 'Andrés', 'González', 'Rivas', 'Carrera 789', '555-9012','V-21647896'),
-  ('Ana', 'Isabel', 'Torres', 'Martínez', 'Avenida 987', '555-3456','V-6978456'),
-  ('Javier', 'Alejandro', 'Hernández', 'Castro', 'Boulevard 654', '555-7890','V-15698746'),
-  ('Laura', 'Carolina', 'Pérez', 'Vargas', 'Avenida 321', '555-2345','V-9645721'),
-  ('Diego', 'Sebastián', 'Ramírez', 'Rojas', 'Calle 654', '555-6789','V-14451214'),
-  ('Valeria', 'Florencia', 'Silva', 'Luna', 'Carrera 987', '555-9012','V-13564897');
+
+INSERT INTO clientes (datos) VALUES (check_null_datos('Luis', 'Miguel', 'Sánchez', 'Gómez', 'Calle Principal 123', unique_cedula(format_cedula('V-25469789'),'clientes'), '555-1234'));
+INSERT INTO clientes (datos) VALUES (check_null_datos('María', 'Fernanda', 'Rodríguez', 'López', 'Avenida Central 456',  unique_cedula(format_cedula('V-15478963'),'clientes'), '555-5678'));
+INSERT INTO clientes (datos) VALUES (check_null_datos('Carlos', 'Andrés', 'González', 'Rivas', 'Carrera 789',  unique_cedula(format_cedula('V-21647896'),'clientes'), '555-9012'));
+INSERT INTO clientes (datos) VALUES (check_null_datos('Ana', 'Isabel', 'Torres', 'Martínez', 'Avenida 987',  unique_cedula(format_cedula('V-6978456'),'clientes'), '555-3456'));
+INSERT INTO clientes (datos) VALUES (check_null_datos('Javier', 'Alejandro', 'Hernández', 'Castro', 'Boulevard 654',  unique_cedula(format_cedula('V-15698746'),'clientes'), '555-7890'));
+INSERT INTO clientes (datos) VALUES (check_null_datos('Laura', 'Carolina', 'Pérez', 'Vargas', 'Avenida 321',  unique_cedula(format_cedula('V-9645721'),'clientes'), '555-2345'));
+INSERT INTO clientes (datos) VALUES (check_null_datos('Diego', 'Sebastián', 'Ramírez', 'Rojas', 'Calle 654',  unique_cedula(format_cedula('V-14451214'),'clientes'), '555-6789'));
+INSERT INTO clientes (datos) VALUES (check_null_datos('Valeria', 'Florencia', 'Silva', 'Luna', 'Carrera 987',  unique_cedula(format_cedula('V-13564897'),'clientes'), '555-9012'));
 
 INSERT INTO proveedores (nombre, direccion, numero_telefonico)
 VALUES
@@ -175,15 +173,15 @@ VALUES
 
 INSERT INTO factura (id_cliente, id_empleado, fecha, monto)
 VALUES
-  ((SELECT id FROM clientes WHERE nombre1 = 'Luis'), (SELECT id FROM empleados WHERE nombre1 = 'John'), '10-21-2023', 65.7),
-  ((SELECT id FROM clientes WHERE nombre1 = 'Luis'), (SELECT id FROM empleados WHERE nombre1 = 'Jane'), '10-01-2023', 150.2),
-  ((SELECT id FROM clientes WHERE nombre1 = 'Luis'), (SELECT id FROM empleados WHERE nombre1 = 'Robert'), '05-19-2023', 89.6),
-  ((SELECT id FROM clientes WHERE nombre1 = 'Carlos'), (SELECT id FROM empleados WHERE nombre1 = 'Robert'), '05-19-2022', 15.1),
-  ((SELECT id FROM clientes WHERE nombre1 = 'Carlos'), (SELECT id FROM empleados WHERE nombre1 = 'David'), '07-19-2022', 95.9),
-  ((SELECT id FROM clientes WHERE nombre1 = 'Carlos'), (SELECT id FROM empleados WHERE nombre1 = 'Olivia'), '05-19-2023', 210.6),
-  ((SELECT id FROM clientes WHERE nombre1 = 'Javier'), (SELECT id FROM empleados WHERE nombre1 = 'Robert'), '11-02-2022', 23.1),
-  ((SELECT id FROM clientes WHERE nombre1 = 'Laura'), (SELECT id FROM empleados WHERE nombre1 = 'David'), '12-29-2022', 49.9),
-  ((SELECT id FROM clientes WHERE nombre1 = 'Diego'), (SELECT id FROM empleados WHERE nombre1 = 'Olivia'), '12-01-2023', 60.6);
+  ((SELECT id FROM clientes WHERE (datos).nombre1 = 'Luis'), (SELECT id FROM empleados WHERE (datos).nombre1 = 'John'), '10-21-2023', 65.7),
+  ((SELECT id FROM clientes WHERE (datos).nombre1 = 'Luis'), (SELECT id FROM empleados WHERE (datos).nombre1 = 'Jane'), '10-01-2023', 150.2),
+  ((SELECT id FROM clientes WHERE (datos).nombre1 = 'Luis'), (SELECT id FROM empleados WHERE (datos).nombre1 = 'Robert'), '05-19-2023', 89.6),
+  ((SELECT id FROM clientes WHERE (datos).nombre1 = 'Carlos'), (SELECT id FROM empleados WHERE (datos).nombre1 = 'Robert'), '05-19-2022', 15.1),
+  ((SELECT id FROM clientes WHERE (datos).nombre1 = 'Carlos'), (SELECT id FROM empleados WHERE (datos).nombre1 = 'David'), '07-19-2022', 95.9),
+  ((SELECT id FROM clientes WHERE (datos).nombre1 = 'Carlos'), (SELECT id FROM empleados WHERE (datos).nombre1 = 'Olivia'), '05-19-2023', 210.6),
+  ((SELECT id FROM clientes WHERE (datos).nombre1 = 'Javier'), (SELECT id FROM empleados WHERE (datos).nombre1 = 'Robert'), '11-02-2022', 23.1),
+  ((SELECT id FROM clientes WHERE (datos).nombre1 = 'Laura'), (SELECT id FROM empleados WHERE (datos).nombre1 = 'David'), '12-29-2022', 49.9),
+  ((SELECT id FROM clientes WHERE (datos).nombre1 = 'Diego'), (SELECT id FROM empleados WHERE (datos).nombre1 = 'Olivia'), '12-01-2023', 60.6);
 
 INSERT INTO detalle_factura (id_factura, id_producto, fecha_inicio_precio, cantidad)
 VALUES

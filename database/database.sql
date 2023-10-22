@@ -37,13 +37,7 @@ CREATE TABLE IF NOT EXISTS proveedores(
 
 CREATE TABLE IF NOT EXISTS clientes(
     id SERIAL PRIMARY KEY,
-    nombre1 VARCHAR(40) NOT NULL,
-    apellido1 VARCHAR(40) NOT NULL,
-    apellido2 VARCHAR(40) NOT NULL,
-    direccion VARCHAR(50) NOT NULL,
-    cedula_identidad VARCHAR(10) NOT NULL UNIQUE,
-    numero_telefonico CHAR(11) NOT NULL,
-    nombre2 VARCHAR(40)
+    datos datos_personales
 );
 
 CREATE TABLE IF NOT EXISTS lugares_geo(
@@ -63,16 +57,10 @@ CREATE TABLE IF NOT EXISTS sucursales (
 CREATE TABLE IF NOT EXISTS empleados (
     id SERIAL PRIMARY KEY,
     id_sucursal INTEGER REFERENCES sucursales(id),
-    nombre1 VARCHAR(40) NOT NULL,
-    apellido1 VARCHAR(40) NOT NULL,
-    apellido2 VARCHAR(40) NOT NULL,
-    direccion VARCHAR(50) NOT NULL,
+    datos datos_personales,
     genero CHAR(1) NOT NULL,
-    numero_telefonico CHAR(11) NOT NULL,
-    cedula_identidad VARCHAR(10) NOT NULL UNIQUE,
     fecha_nacimiento DATE NOT NULL,
     activo BOOLEAN NOT NULL,
-    nombre2 VARCHAR(40),
     CONSTRAINT val_genero CHECK (genero IN ('M', 'F'))
 );
 
