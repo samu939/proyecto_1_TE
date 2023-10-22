@@ -37,14 +37,14 @@ VALUES
 
 INSERT INTO empleados (nombre1, nombre2, apellido1, apellido2, direccion, numero_telefonico, genero, cedula_identidad, fecha_nacimiento, activo)
 VALUES
-  ('John', 'Doe', 'Smith', 'Johnson', 'Calle Principal 123', '555-1234', 'M', '1234567', '1990-01-01', true),
-  ('Jane', 'Mary', 'Johnson', 'Doe', 'Avenida Central 456', '555-5678', 'F', '9876543', '1985-05-10', true),
-  ('Robert', 'Lee', 'Williams', 'Brown', 'Carrera 789', '555-9012', 'M', '2468135', '1993-11-15', true),
-  ('Emily', 'Rose', 'Taylor', 'Clark', 'Avenida 987', '555-3456', 'F', '5432167', '1992-09-20', true),
-  ('Michael', 'James', 'Anderson', 'Wilson', 'Boulevard 654', '555-7890', 'M', '7896543', '1988-07-05', true),
-  ('Sophia', 'Grace', 'Parker', 'Cooper', 'Avenida 321', '555-2345', 'F', '3214567', '1991-03-08', true),
-  ('David', 'Thomas', 'Green', 'White', 'Calle 654', '555-6789', 'M', '1357924', '1987-12-25', true),
-  ('Olivia', 'Isabella', 'Harris', 'Martin', 'Carrera 987', '555-9012', 'F', '9872134', '1994-06-30', true);
+  ('John', 'Doe', 'Smith', 'Johnson', 'Calle Principal 123', '555-1234', 'M', 'V-1234567', '1990-01-01', true),
+  ('Jane', 'Mary', 'Johnson', 'Doe', 'Avenida Central 456', '555-5678', 'F', 'V-9876543', '1985-05-10', true),
+  ('Robert', 'Lee', 'Williams', 'Brown', 'Carrera 789', '555-9012', 'M', 'V-2468135', '1993-11-15', true),
+  ('Emily', 'Rose', 'Taylor', 'Clark', 'Avenida 987', '555-3456', 'F', 'V-5432167', '1992-09-20', true),
+  ('Michael', 'James', 'Anderson', 'Wilson', 'Boulevard 654', '555-7890', 'M', 'V-7896543', '1988-07-05', true),
+  ('Sophia', 'Grace', 'Parker', 'Cooper', 'Avenida 321', '555-2345', 'F', 'V-3214567', '1991-03-08', true),
+  ('David', 'Thomas', 'Green', 'White', 'Calle 654', '555-6789', 'M', 'V-1357924', '1987-12-25', true),
+  ('Olivia', 'Isabella', 'Harris', 'Martin', 'Carrera 987', '555-9012', 'F', 'V-9872134', '1994-06-30', true);
 
 INSERT INTO historico_salario (id_empleado, fecha_inicio, salario)
 VALUES
@@ -88,16 +88,16 @@ VALUES
   ((SELECT id FROM empleados WHERE nombre1 = 'David'), (SELECT id FROM turnos WHERE nombre = 'Noche'), '08-12-2018'),
   ((SELECT id FROM empleados WHERE nombre1 = 'Olivia'), (SELECT id FROM turnos WHERE nombre = 'Noche'), '08-25-2018');
 
-INSERT INTO clientes (nombre1, nombre2, apellido1, apellido2, direccion, numero_telefonico)
+INSERT INTO clientes (nombre1, nombre2, apellido1, apellido2, direccion, numero_telefonico, cedula_identidad)
 VALUES
-  ('Luis', 'Miguel', 'Sánchez', 'Gómez', 'Calle Principal 123', '555-1234'),
-  ('María', 'Fernanda', 'Rodríguez', 'López', 'Avenida Central 456', '555-5678'),
-  ('Carlos', 'Andrés', 'González', 'Rivas', 'Carrera 789', '555-9012'),
-  ('Ana', 'Isabel', 'Torres', 'Martínez', 'Avenida 987', '555-3456'),
-  ('Javier', 'Alejandro', 'Hernández', 'Castro', 'Boulevard 654', '555-7890'),
-  ('Laura', 'Carolina', 'Pérez', 'Vargas', 'Avenida 321', '555-2345'),
-  ('Diego', 'Sebastián', 'Ramírez', 'Rojas', 'Calle 654', '555-6789'),
-  ('Valeria', 'Florencia', 'Silva', 'Luna', 'Carrera 987', '555-9012');
+  ('Luis', 'Miguel', 'Sánchez', 'Gómez', 'Calle Principal 123', '555-1234','V-25469789'),
+  ('María', 'Fernanda', 'Rodríguez', 'López', 'Avenida Central 456', '555-5678','V-15478963'),
+  ('Carlos', 'Andrés', 'González', 'Rivas', 'Carrera 789', '555-9012','V-21647896'),
+  ('Ana', 'Isabel', 'Torres', 'Martínez', 'Avenida 987', '555-3456','V-6978456'),
+  ('Javier', 'Alejandro', 'Hernández', 'Castro', 'Boulevard 654', '555-7890','V-15698746'),
+  ('Laura', 'Carolina', 'Pérez', 'Vargas', 'Avenida 321', '555-2345','V-9645721'),
+  ('Diego', 'Sebastián', 'Ramírez', 'Rojas', 'Calle 654', '555-6789','V-14451214'),
+  ('Valeria', 'Florencia', 'Silva', 'Luna', 'Carrera 987', '555-9012','V-13564897');
 
 INSERT INTO proveedores (nombre, direccion, numero_telefonico)
 VALUES
