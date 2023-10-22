@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS clientes(
     apellido1 VARCHAR(40) NOT NULL,
     apellido2 VARCHAR(40) NOT NULL,
     direccion VARCHAR(50) NOT NULL,
+    cedula_identidad VARCHAR(10) NOT NULL UNIQUE,
     numero_telefonico CHAR(11) NOT NULL,
     nombre2 VARCHAR(40)
 );
@@ -68,7 +69,7 @@ CREATE TABLE IF NOT EXISTS empleados (
     direccion VARCHAR(50) NOT NULL,
     genero CHAR(1) NOT NULL,
     numero_telefonico CHAR(11) NOT NULL,
-    cedula_identidad VARCHAR(8) NOT NULL UNIQUE,
+    cedula_identidad VARCHAR(10) NOT NULL UNIQUE,
     fecha_nacimiento DATE NOT NULL,
     activo BOOLEAN NOT NULL,
     nombre2 VARCHAR(40),
