@@ -137,7 +137,15 @@ VALUES
   ('Veracruz', (SELECT id from lugares_geo WHERE nombre = 'Libertador')),
   ('Av. Andres Bello', (SELECT id from lugares_geo WHERE nombre = 'Libertador'));
 
--- todo: historico_gastos_particulares
+INSERT INTO historico_gastos_particulares (id_sucursal, fecha, monto, descripcion)
+VALUES
+  ((SELECT id FROM sucursales WHERE direccion = 'Edif Valmy, Avenida Francisco de Miranda'), '08-19-2017', 50, 'Reparo de nevera'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '08-19-2018', 80, 'Mantenimiento de cajeros'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '08-19-2019', 30, 'Mantenimiento de neveras'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), '08-19-2021', 300, 'Compra de equipos de refrigeracion'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), '08-10-2021', 30, 'Productos de limpieza'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), '08-19-2022', 200, 'Gastos legales'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), '08-19-2022', 70, 'Mantenimiento de luces');
 
 INSERT INTO historico_alquiler (id_sucursal, fecha, monto)
 VALUES
