@@ -74,19 +74,73 @@ VALUES
 
 INSERT INTO turnos (nombre)
 VALUES
-  ('Mañana'), ('Tarde'), ('Noche');
+  ('Diurno entre semana'), ('Diurno fines de semana'), ('Nocturno entre semana'), ('Nocturno fines de semana');
+
+INSERT INTO dias (nombre)
+VALUES
+  ('Lunes'), ('Martes'), ('Miércoles'),
+  ('Jueves'), ('Viernes'), ('Sábado'), ('Domingo');
+
+INSERT INTO dias_turnos (id_dia, id_turno, hora_entrada, hora_salida)
+VALUES
+  ((SELECT id FROM dias WHERE nombre = 'Lunes'), (SELECT id FROM turnos WHERE nombre = 'Diurno entre semana'), '08:00:00', '17:00:00'),
+  ((SELECT id FROM dias WHERE nombre = 'Martes'), (SELECT id FROM turnos WHERE nombre = 'Diurno entre semana'), '08:00:00', '17:00:00'),
+  ((SELECT id FROM dias WHERE nombre = 'Miércoles'), (SELECT id FROM turnos WHERE nombre = 'Diurno entre semana'), '08:00:00', '17:00:00'),
+  ((SELECT id FROM dias WHERE nombre = 'Jueves'), (SELECT id FROM turnos WHERE nombre = 'Diurno entre semana'), '08:00:00', '17:00:00'),
+  ((SELECT id FROM dias WHERE nombre = 'Viernes'), (SELECT id FROM turnos WHERE nombre = 'Diurno entre semana'), '08:00:00', '17:00:00'),
+  ((SELECT id FROM dias WHERE nombre = 'Lunes'), (SELECT id FROM turnos WHERE nombre = 'Nocturno entre semana'), '16:00:00', '22:00:00'),
+  ((SELECT id FROM dias WHERE nombre = 'Martes'), (SELECT id FROM turnos WHERE nombre = 'Nocturno entre semana'), '16:00:00', '22:00:00'),
+  ((SELECT id FROM dias WHERE nombre = 'Miércoles'), (SELECT id FROM turnos WHERE nombre = 'Nocturno entre semana'), '16:00:00', '22:00:00'),
+  ((SELECT id FROM dias WHERE nombre = 'Jueves'), (SELECT id FROM turnos WHERE nombre = 'Nocturno entre semana'), '16:00:00', '22:00:00'),
+  ((SELECT id FROM dias WHERE nombre = 'Viernes'), (SELECT id FROM turnos WHERE nombre = 'Nocturno entre semana'), '16:00:00', '22:00:00'),
+  ((SELECT id FROM dias WHERE nombre = 'Viernes'), (SELECT id FROM turnos WHERE nombre = 'Diurno fines de semana'), '08:00:00', '17:00:00'),
+  ((SELECT id FROM dias WHERE nombre = 'Sábado'), (SELECT id FROM turnos WHERE nombre = 'Diurno fines de semana'), '08:00:00', '17:00:00'),
+  ((SELECT id FROM dias WHERE nombre = 'Domingo'), (SELECT id FROM turnos WHERE nombre = 'Diurno fines de semana'), '09:00:00', '17:00:00'),
+  ((SELECT id FROM dias WHERE nombre = 'Lunes'), (SELECT id FROM turnos WHERE nombre = 'Diurno fines de semana'), '08:00:00', '17:00:00'),
+  ((SELECT id FROM dias WHERE nombre = 'Martes'), (SELECT id FROM turnos WHERE nombre = 'Diurno fines de semana'), '08:00:00', '17:00:00'),
+  ((SELECT id FROM dias WHERE nombre = 'Viernes'), (SELECT id FROM turnos WHERE nombre = 'Nocturno fines de semana'), '16:00:00', '22:00:00'),
+  ((SELECT id FROM dias WHERE nombre = 'Sábado'), (SELECT id FROM turnos WHERE nombre = 'Nocturno fines de semana'), '16:00:00', '22:00:00'),
+  ((SELECT id FROM dias WHERE nombre = 'Domingo'), (SELECT id FROM turnos WHERE nombre = 'Nocturno fines de semana'), '16:00:00', '21:00:00'),
+  ((SELECT id FROM dias WHERE nombre = 'Lunes'), (SELECT id FROM turnos WHERE nombre = 'Nocturno fines de semana'), '16:00:00', '22:00:00'),
+  ((SELECT id FROM dias WHERE nombre = 'Martes'), (SELECT id FROM turnos WHERE nombre = 'Nocturno fines de semana'), '16:00:00', '22:00:00');
 
 INSERT INTO historico_turno (id_empleado, id_turno, fecha_inicio)
 VALUES
-  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'John'), (SELECT id FROM turnos WHERE nombre = 'Mañana'), '08-12-2012'),
-  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Jane'), (SELECT id FROM turnos WHERE nombre = 'Mañana'), '08-25-2020'),
-  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Robert'), (SELECT id FROM turnos WHERE nombre = 'Tarde'), '08-12-2012'),
-  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Emily'), (SELECT id FROM turnos WHERE nombre = 'Tarde'), '08-12-2012'),
-  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Michael'), (SELECT id FROM turnos WHERE nombre = 'Mañana'), '08-12-2019'),
-  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Sophia'), (SELECT id FROM turnos WHERE nombre = 'Noche'), '08-12-2017'),
-  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'David'), (SELECT id FROM turnos WHERE nombre = 'Noche'), '08-12-2018'),
-  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Olivia'), (SELECT id FROM turnos WHERE nombre = 'Noche'), '08-25-2018');
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'John'), (SELECT id FROM turnos WHERE nombre = 'Diurno entre semana'), '08-12-2012'),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Jane'), (SELECT id FROM turnos WHERE nombre = 'Diurno entre semana'), '08-25-2020'),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Robert'), (SELECT id FROM turnos WHERE nombre = 'Nocturno entre semana'), '08-12-2012'),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Emily'), (SELECT id FROM turnos WHERE nombre = 'Nocturno entre semana'), '08-12-2012'),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Michael'), (SELECT id FROM turnos WHERE nombre = 'Diurno fines de semana'), '08-12-2019'),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Sophia'), (SELECT id FROM turnos WHERE nombre = 'Diurno fines de semana'), '08-12-2017'),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'David'), (SELECT id FROM turnos WHERE nombre = 'Nocturno fines de semana'), '08-12-2018'),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Olivia'), (SELECT id FROM turnos WHERE nombre = 'Nocturno fines de semana'), '08-25-2018');
 
+INSERT INTO asistencia (id_empleado,id_turno,fecha_turno,fecha,hora_entrada,hora_salida,motivo_ausencia)
+VALUES
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'John'), (SELECT id FROM turnos WHERE nombre = 'Diurno entre semana'), '08-12-2012','03-15-2022','07:58:00','17:05:00',NULL),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'John'), (SELECT id FROM turnos WHERE nombre = 'Diurno entre semana'), '08-12-2012','03-16-2022','08:02:00','17:06:22',NULL),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'John'), (SELECT id FROM turnos WHERE nombre = 'Diurno entre semana'), '08-12-2012','03-17-2022','08:30:13','17:45:21',NULL),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Jane'), (SELECT id FROM turnos WHERE nombre = 'Diurno entre semana'), '08-25-2020','03-15-2022',NULL,NULL,'Cita médica'),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Jane'), (SELECT id FROM turnos WHERE nombre = 'Diurno entre semana'), '08-25-2020','03-16-2022','07:55:51','16:58:10',NULL),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Jane'), (SELECT id FROM turnos WHERE nombre = 'Diurno entre semana'), '08-25-2020','03-17-2022','07:59:30','17:01:12',NULL),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Robert'), (SELECT id FROM turnos WHERE nombre = 'Nocturno entre semana'), '08-12-2012','03-15-2022','16:15:01','22:10:03',NULL),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Robert'), (SELECT id FROM turnos WHERE nombre = 'Nocturno entre semana'), '08-12-2012','03-16-2022','16:02:29','22:10:03',NULL),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Robert'), (SELECT id FROM turnos WHERE nombre = 'Nocturno entre semana'), '08-12-2012','03-17-2022','15:59:59','22:01:01',NULL),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Emily'), (SELECT id FROM turnos WHERE nombre = 'Nocturno entre semana'), '08-12-2012','03-15-2022','16:05:15','21:45:10',NULL),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Emily'), (SELECT id FROM turnos WHERE nombre = 'Nocturno entre semana'), '08-12-2012','03-16-2022','16:04:10','21:40:15',NULL),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Emily'), (SELECT id FROM turnos WHERE nombre = 'Nocturno entre semana'), '08-12-2012','03-17-2022',NULL,NULL,'Infección viral'),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Michael'), (SELECT id FROM turnos WHERE nombre = 'Diurno fines de semana'), '08-12-2019','03-15-2022','08:09:11','16:59:41',NULL),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Michael'), (SELECT id FROM turnos WHERE nombre = 'Diurno fines de semana'), '08-12-2019','03-16-2022','08:03:23','16:58:22',NULL),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Michael'), (SELECT id FROM turnos WHERE nombre = 'Diurno fines de semana'), '08-12-2019','03-17-2022','08:02:58','17:10:45',NULL),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Sophia'), (SELECT id FROM turnos WHERE nombre = 'Diurno fines de semana'), '08-12-2017','03-15-2022','08:02:09','17:10:45',NULL),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Sophia'), (SELECT id FROM turnos WHERE nombre = 'Diurno fines de semana'), '08-12-2017','03-16-2022',NULL,NULL,'Lele panza'),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Sophia'), (SELECT id FROM turnos WHERE nombre = 'Diurno fines de semana'), '08-12-2017','03-17-2022','07:52:12','17:01:12',NULL),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'David'), (SELECT id FROM turnos WHERE nombre = 'Nocturno fines de semana'), '08-12-2018','03-15-2022','16:30:34','22:01:11',NULL),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'David'), (SELECT id FROM turnos WHERE nombre = 'Nocturno fines de semana'), '08-12-2018','03-16-2022','16:12:02','21:56:12',NULL),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'David'), (SELECT id FROM turnos WHERE nombre = 'Nocturno fines de semana'), '08-12-2018','03-17-2022','15:56:12','22:09:22',NULL),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Olivia'), (SELECT id FROM turnos WHERE nombre = 'Nocturno fines de semana'), '08-25-2018','03-15-2022','16:01:15','22:02:42',NULL),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Olivia'), (SELECT id FROM turnos WHERE nombre = 'Nocturno fines de semana'), '08-25-2018','03-16-2022','15:56:55','22:01:29',NULL),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Olivia'), (SELECT id FROM turnos WHERE nombre = 'Nocturno fines de semana'), '08-25-2018','03-17-2022','16:57:12','22:06:10',NULL);
 
 INSERT INTO clientes (datos) VALUES (check_null_datos('Luis', 'Miguel', 'Sánchez', 'Gómez', 'Calle Principal 123', unique_cedula(format_cedula('V-25469789'),'clientes'), '555-1234'));
 INSERT INTO clientes (datos) VALUES (check_null_datos('María', 'Fernanda', 'Rodríguez', 'López', 'Avenida Central 456',  unique_cedula(format_cedula('V-15478963'),'clientes'), '555-5678'));
@@ -153,23 +207,6 @@ VALUES
   ((SELECT id FROM sucursales WHERE direccion = 'Final Av Intercomunial El Hatillo'), '08-19-2004', 800),
   ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), '08-19-2005', 450),
   ((SELECT id FROM sucursales WHERE direccion = 'Av. Andres Bello'), '08-19-2007', 300);
-
-INSERT INTO dias (nombre)
-VALUES
-  ('Lunes'), ('Martes'), ('Miércoles'),
-  ('Jueves'), ('Viernes'), ('Sábado'), ('Domingo');
-
-INSERT INTO dias_turnos (id_dia, id_turno, hora_entrada, hora_salida)
-VALUES
-  ((SELECT id FROM dias WHERE nombre = 'Lunes'), (SELECT id FROM turnos WHERE nombre = 'Mañana'), '08:00:00', '17:00:00'),
-  ((SELECT id FROM dias WHERE nombre = 'Martes'), (SELECT id FROM turnos WHERE nombre = 'Mañana'), '08:00:00', '17:00:00'),
-  ((SELECT id FROM dias WHERE nombre = 'Miércoles'), (SELECT id FROM turnos WHERE nombre = 'Mañana'), '08:00:00', '17:00:00'),
-  ((SELECT id FROM dias WHERE nombre = 'Jueves'), (SELECT id FROM turnos WHERE nombre = 'Mañana'), '08:00:00', '17:00:00'),
-  ((SELECT id FROM dias WHERE nombre = 'Viernes'), (SELECT id FROM turnos WHERE nombre = 'Mañana'), '08:00:00', '17:00:00'),
-  ((SELECT id FROM dias WHERE nombre = 'Sábado'), (SELECT id FROM turnos WHERE nombre = 'Mañana'), '08:00:00', '17:00:00'),
-  ((SELECT id FROM dias WHERE nombre = 'Domingo'), (SELECT id FROM turnos WHERE nombre = 'Mañana'), '08:00:00', '17:00:00'),
-  ((SELECT id FROM dias WHERE nombre = 'Lunes'), (SELECT id FROM turnos WHERE nombre = 'Tarde'), '13:00:00', '19:00:00'),
-  ((SELECT id FROM dias WHERE nombre = 'Martes'), (SELECT id FROM turnos WHERE nombre = 'Noche'), '19:00:00', '24:00:00');
 
 INSERT INTO factura (id_cliente, id_empleado, fecha, monto)
 VALUES
