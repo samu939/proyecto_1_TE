@@ -35,15 +35,23 @@ VALUES
   ((SELECT id FROM productos WHERE nombre = 'Oreo'), '10-21-2020', '10-21-2020', 1),
   ((SELECT id FROM productos WHERE nombre = 'Coca-cola'), '10-21-2020', '10-21-2020', 1);
 
+INSERT INTO sucursales (direccion, id_lugar)
+VALUES
+  ('Edif Valmy, Avenida Francisco de Miranda', (SELECT id from lugares_geo WHERE nombre = 'Chacao')),
+  ('Calle Urdaneta', (SELECT id from lugares_geo WHERE nombre = 'Chacao')),
+  ('Calle Sucre', (SELECT id from lugares_geo WHERE nombre = 'Baruta')),
+  ('Final Av Intercomunial El Hatillo', (SELECT id from lugares_geo WHERE nombre = 'Baruta')),
+  ('Veracruz', (SELECT id from lugares_geo WHERE nombre = 'Libertador')),
+  ('Av. Andres Bello', (SELECT id from lugares_geo WHERE nombre = 'Libertador'));
 
-INSERT INTO empleados (datos, genero, fecha_nacimiento, activo) VALUES  (check_null_datos('John', 'Doe', 'Smith', 'Johnson', 'Calle Principal 123', unique_cedula(format_cedula('V-1234567'),'empleados'), '555-1234'), 'M', '1990-01-01', true);
-INSERT INTO empleados (datos, genero, fecha_nacimiento, activo) VALUES  (check_null_datos('Jane', 'Mary', 'Johnson', 'Doe', 'Avenida Central 456', unique_cedula(format_cedula('V-9876543'),'empleados'), '555-5678'), 'F', '1985-05-10', true);
-INSERT INTO empleados (datos, genero, fecha_nacimiento, activo) VALUES  (check_null_datos('Robert', 'Lee', 'Williams', 'Brown', 'Carrera 789', unique_cedula(format_cedula('V-2468135'),'empleados'), '555-9012'), 'M', '1993-11-15', true);
-INSERT INTO empleados (datos, genero, fecha_nacimiento, activo) VALUES  (check_null_datos('Emily', 'Rose', 'Taylor', 'Clark', 'Avenida 987', unique_cedula(format_cedula('V-5432167'),'empleados'), '555-3456'), 'F', '1992-09-20', true);
-INSERT INTO empleados (datos, genero, fecha_nacimiento, activo) VALUES  (check_null_datos('Michael', 'James', 'Anderson', 'Wilson', 'Boulevard 654', unique_cedula(format_cedula('V-7896543'),'empleados'), '555-7890'), 'M', '1988-07-05', true);
-INSERT INTO empleados (datos, genero, fecha_nacimiento, activo) VALUES  (check_null_datos('Sophia', 'Grace', 'Parker', 'Cooper', 'Avenida 321', unique_cedula(format_cedula('V-3214567'),'empleados'), '555-2345'), 'F', '1991-03-08', true);
-INSERT INTO empleados (datos, genero, fecha_nacimiento, activo) VALUES  (check_null_datos('David', 'Thomas', 'Green', 'White', 'Calle 654', unique_cedula(format_cedula('V-1357924'),'empleados'), '555-6789'), 'M', '1987-12-25', true);
-INSERT INTO empleados (datos, genero, fecha_nacimiento, activo) VALUES  (check_null_datos('Olivia', 'Isabella', 'Harris', 'Martin', 'Carrera 987', unique_cedula(format_cedula('V-9872134'),'empleados'), '555-9012'), 'F', '1994-06-30', true);
+INSERT INTO empleados (datos, genero, fecha_nacimiento, activo, id_sucursal) VALUES  (check_null_datos('John', 'Doe', 'Smith', 'Johnson', 'Calle Principal 123', unique_cedula(format_cedula('V-1234567'),'empleados'), '555-1234'), 'M', '1990-01-01', true,1);
+INSERT INTO empleados (datos, genero, fecha_nacimiento, activo, id_sucursal) VALUES  (check_null_datos('Robert', 'Lee', 'Williams', 'Brown', 'Carrera 789', unique_cedula(format_cedula('V-2468135'),'empleados'), '555-9012'), 'M', '1993-11-15', true,1);
+INSERT INTO empleados (datos, genero, fecha_nacimiento, activo, id_sucursal) VALUES  (check_null_datos('Emily', 'Rose', 'Taylor', 'Clark', 'Avenida 987', unique_cedula(format_cedula('V-5432167'),'empleados'), '555-3456'), 'F', '1992-09-20', true,1);
+INSERT INTO empleados (datos, genero, fecha_nacimiento, activo, id_sucursal) VALUES  (check_null_datos('Jane', 'Mary', 'Johnson', 'Doe', 'Avenida Central 456', unique_cedula(format_cedula('V-9876543'),'empleados'), '555-5678'), 'F', '1985-05-10', true,2);
+INSERT INTO empleados (datos, genero, fecha_nacimiento, activo, id_sucursal) VALUES  (check_null_datos('Michael', 'James', 'Anderson', 'Wilson', 'Boulevard 654', unique_cedula(format_cedula('V-7896543'),'empleados'), '555-7890'), 'M', '1988-07-05', true,2);
+INSERT INTO empleados (datos, genero, fecha_nacimiento, activo, id_sucursal) VALUES  (check_null_datos('Sophia', 'Grace', 'Parker', 'Cooper', 'Avenida 321', unique_cedula(format_cedula('V-3214567'),'empleados'), '555-2345'), 'F', '1991-03-08', true,2);
+INSERT INTO empleados (datos, genero, fecha_nacimiento, activo, id_sucursal) VALUES  (check_null_datos('David', 'Thomas', 'Green', 'White', 'Calle 654', unique_cedula(format_cedula('V-1357924'),'empleados'), '555-6789'), 'M', '1987-12-25', true,3);
+INSERT INTO empleados (datos, genero, fecha_nacimiento, activo, id_sucursal) VALUES  (check_null_datos('Olivia', 'Isabella', 'Harris', 'Martin', 'Carrera 987', unique_cedula(format_cedula('V-9872134'),'empleados'), '555-9012'), 'F', '1994-06-30', true,3);
 
 INSERT INTO historico_salario (id_empleado, fecha_inicio, salario)
 VALUES
@@ -180,14 +188,6 @@ VALUES
   ('Libertador', 'municipio', (SELECT id FROM lugares_geo WHERE nombre = 'Miranda')),
   ('Sucre', 'municipio', (SELECT id FROM lugares_geo WHERE nombre = 'Miranda'));
 
-INSERT INTO sucursales (direccion, id_lugar)
-VALUES
-  ('Edif Valmy, Avenida Francisco de Miranda', (SELECT id from lugares_geo WHERE nombre = 'Chacao')),
-  ('Calle Urdaneta', (SELECT id from lugares_geo WHERE nombre = 'Chacao')),
-  ('Calle Sucre', (SELECT id from lugares_geo WHERE nombre = 'Baruta')),
-  ('Final Av Intercomunial El Hatillo', (SELECT id from lugares_geo WHERE nombre = 'Baruta')),
-  ('Veracruz', (SELECT id from lugares_geo WHERE nombre = 'Libertador')),
-  ('Av. Andres Bello', (SELECT id from lugares_geo WHERE nombre = 'Libertador'));
 
 INSERT INTO historico_gastos_particulares (id_sucursal, fecha, monto, descripcion)
 VALUES
