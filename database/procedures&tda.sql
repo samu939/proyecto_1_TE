@@ -116,3 +116,15 @@ as $$
 	ganancias_mes(s.id,fecha_reporte)-gastos_mes(s.id,fecha_reporte) as "Total" from sucursales s order by "Total" desc; 
 	
 $$ language sql;
+
+create or replace function nomina (sucursal int) returns 
+table (nombre varchar(200), cedula varchar(10), cargo varchar(40),salario decimal (10,2))
+as $$
+
+		select (e.datos).nombre1||' '||(e.datos).nombre2 ||' '||(e.datos).apellido1||' '||(e.datos).apellido2 "Nombre",
+		(e.datos).cedula_identidad "Cedula", c.nombre "Cargo", hs.salario "Salario" 
+		from historico_cargo hc, historico_salario hs, empleados e, cargos c where 
+		e.id_sucursal=sucursal and hs.id_empleado=e.id and hc.id_empleado=e.id and hs.fecha_fin isnull and hc.fecha_fin isnull 
+		and hc.id_cargo=c.id; 
+	
+$$ language sql;
