@@ -13,8 +13,8 @@ begin
 		where ci.id_sucursal = sucursal and to_char(ci.fecha, 'YYYY-MM') = to_char(fecha_reporte, 'YYYY-MM')
 		and ci.fecha<= fecha_reporte),0)
 		+coalesce ((select sum( hs.salario) from empleados e, historico_salario hs where 
-		e.id_sucursal=sucursal and hs.id_empleado=e.id and (hs.fecha_fin isnull or hs.fecha_fin < fecha_reporte)
-		and hs.fecha_inicio < fecha_reporte),0) 
+		e.id_sucursal=sucursal and hs.id_empleado=e.id and ((hs.fecha_inicio < fecha_reporte and hs.fecha_fin isnull) 
+		or (hs.fecha_fin > fecha_reporte and hs.fecha_inicio < fecha_reporte))),0) 
 	    into gastos;
 	
 	return gastos;
@@ -56,3 +56,15 @@ as $$
 		and hc.id_cargo=c.id; 
 	
 $$ language sql;
+
+create or replace function total_nomina (sucursal int) returns decimal(12,2)
+as $$
+declare nomina_total decimal (12,2);
+begin 
+	
+		select sum( hs.salario) from empleados e, historico_salario hs where 
+		e.id_sucursal=sucursal and hs.id_empleado=e.id and  hs.fecha_fin isnull into nomina_total;
+	
+	return nomina_total;
+	
+end; $$ language plpgsql;
