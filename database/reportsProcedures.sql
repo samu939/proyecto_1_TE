@@ -45,6 +45,23 @@ as $$
 	
 $$ language sql;
 
+create or replace function horas_extra (emp int, fecha_reporte date) 
+returns table (horasReq decimal(5,2), horasRea decimal(5,2))
+as $$
+declare horas_requeridas decimal (5,2); horas_realizadas decimal (5,2);
+begin 
+	
+		select (EXTRACT(epoch FROM sum(dt.hora_salida - dt.hora_entrada))/3600)*4
+		from historico_turno ht ,dias_turnos dt, turnos t 
+		where dt.id_turno=t.id and ht.id_turno=t.id and ht.id_empleado=emp and ht.fecha_fin isnull into horas_requeridas;
+	
+		select (EXTRACT(epoch FROM sum(a.hora_salida - a.hora_entrada))/3600)from asistencia a 
+		where a.id_empleado=emp and to_char(a.fecha, 'YYYY-MM') = to_char(fecha_reporte, 'YYYY-MM') into horas_realizadas;
+	
+	return query select horas_requeridas, horas_realizadas;
+	
+end; $$ language plpgsql;
+
 create or replace function nomina (sucursal int, fecha_reporte date) returns 
 table (nombre varchar(200), cedula varchar(10), cargo varchar(40),salario decimal (10,2),horasReq decimal(5,2), horasRea decimal(5,2))
 as $$
@@ -74,19 +91,3 @@ begin
 	
 end; $$ language plpgsql;
 
-create or replace function horas_extra (emp int, fecha_reporte date) 
-returns table (horasReq decimal(5,2), horasRea decimal(5,2))
-as $$
-declare horas_requeridas decimal (5,2); horas_realizadas decimal (5,2);
-begin 
-	
-		select (EXTRACT(epoch FROM sum(dt.hora_salida - dt.hora_entrada))/3600)*4
-		from historico_turno ht ,dias_turnos dt, turnos t 
-		where dt.id_turno=t.id and ht.id_turno=t.id and ht.id_empleado=emp and ht.fecha_fin isnull into horas_requeridas;
-	
-		select (EXTRACT(epoch FROM sum(a.hora_salida - a.hora_entrada))/3600)from asistencia a 
-		where a.id_empleado=emp and to_char(a.fecha, 'YYYY-MM') = to_char(fecha_reporte, 'YYYY-MM') into horas_realizadas;
-	
-	return query select horas_requeridas, horas_realizadas;
-	
-end; $$ language plpgsql;
