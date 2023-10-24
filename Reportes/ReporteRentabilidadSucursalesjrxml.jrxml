@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteRentabilidadSucursalesjrxml" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="76526c0d-8d45-429a-b4cb-1e3c2f6e6eaf">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="postgreDocker"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="fecha_reporte" class="java.sql.Date"/>
+	<queryString>
+		<![CDATA[select * from rentabilidad_sucursales($P{fecha_reporte}); ]]>
+	</queryString>
+	<field name="id_suc" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_suc"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_suc"/>
+	</field>
+	<field name="dir" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="dir"/>
+		<property name="com.jaspersoft.studio.field.label" value="dir"/>
+	</field>
+	<field name="gastos" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="gastos"/>
+		<property name="com.jaspersoft.studio.field.label" value="gastos"/>
+	</field>
+	<field name="ganancias" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="ganancias"/>
+		<property name="com.jaspersoft.studio.field.label" value="ganancias"/>
+	</field>
+	<field name="total" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="total"/>
+		<property name="com.jaspersoft.studio.field.label" value="total"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="111" splitType="Stretch">
+			<rectangle>
+				<reportElement x="-7" y="0" width="460" height="101" backcolor="#F8F5EE" uuid="34721345-34e2-42db-a09c-d4e8402d4596"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="-3" y="31" width="450" height="40" uuid="a5b8305e-3e34-40b9-9c3b-f5f6d60184a8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Britannic Bold" size="33"/>
+				</textElement>
+				<text><![CDATA[EL EMPORIO DEL BUEN GUSTO]]></text>
+			</staticText>
+			<image>
+				<reportElement x="453" y="0" width="107" height="107" forecolor="#F8F5EE" backcolor="#F8F5EE" uuid="e963a2da-64cb-4646-a24b-d190673ee573">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA["C:/Users/Samuel/Downloads/_ef703704-a3d4-4a83-87d5-63f01fe8abd3.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="53" splitType="Stretch">
+			<rectangle>
+				<reportElement x="37" y="1" width="460" height="50" backcolor="#A8895B" uuid="cd0f48b0-807b-42a8-bd35-cce19cd316fd"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="94" y="11" width="346" height="30" forecolor="#F6F3EC" uuid="a27893ea-541c-40f0-8934-5ca9ba8eb0e8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Britannic Bold" size="25"/>
+				</textElement>
+				<text><![CDATA[Rentabilidad de las sucursales]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="42" splitType="Stretch">
+			<rectangle>
+				<reportElement x="15" y="7" width="104" height="29" backcolor="#F8F5EE" uuid="e7774612-d876-4ec2-a81a-2310c4e8b4a9">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="225" y="7" width="104" height="29" backcolor="#F8F5EE" uuid="99beeba3-7a01-40f0-902e-33aef5e421fd">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="435" y="7" width="104" height="29" backcolor="#F8F5EE" uuid="c05f21f6-5ec8-4ed0-ae34-f54059fd1d2d">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="120" y="7" width="104" height="29" backcolor="#A8895B" uuid="76f466b2-56c7-4f95-939e-5ecc158e7869">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="330" y="7" width="104" height="29" backcolor="#A8895B" uuid="869033f8-eadd-4bca-a56d-a1cd66ad1de1">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="17" y="6" width="100" height="30" uuid="5a4ed0d3-09b8-453b-bc1d-9a3d59513ac5">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bbe704a9-d3d2-4c96-ae40-fb93b820a720"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="16"/>
+				</textElement>
+				<text><![CDATA[id sucursal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="6" width="100" height="30" forecolor="#F5F2E9" backcolor="#F5F2E9" uuid="d5cd4f58-3184-420d-b8f7-7cff154657a6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bf5a5bc0-5c89-4713-b4e2-60323b808523"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="16"/>
+				</textElement>
+				<text><![CDATA[dirección]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="227" y="6" width="100" height="30" uuid="450015b7-5073-471e-b257-0893e28ca95c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2281d3b8-5457-4420-9d8d-8c45938555a8"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="16"/>
+				</textElement>
+				<text><![CDATA[gastos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="332" y="6" width="100" height="30" forecolor="#F5F2E9" backcolor="#F5F2E9" uuid="7ae0705a-f13f-44de-ad2a-0440c3d82c1b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="571f47d0-89d9-4d85-a7fc-373caf9e3416"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="16"/>
+				</textElement>
+				<text><![CDATA[ganancias]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="437" y="6" width="100" height="30" uuid="eb6e38ea-1186-48e2-9779-329cf5eea908">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="472c3451-e216-48c5-86c7-2bee5ac7f1c0"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="16"/>
+				</textElement>
+				<text><![CDATA[total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="46" splitType="Stretch">
+			<textField>
+				<reportElement x="17" y="8" width="100" height="30" uuid="8d87b99a-6770-4fe5-a5c1-bf96096e721e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bbe704a9-d3d2-4c96-ae40-fb93b820a720"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id_suc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="122" y="8" width="100" height="30" uuid="cabb6a83-e985-49bb-ab74-f1c3655a9b8a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bf5a5bc0-5c89-4713-b4e2-60323b808523"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dir}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="227" y="8" width="100" height="30" uuid="ee286a97-1b27-43c2-86ab-f7d42b2108d3">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2281d3b8-5457-4420-9d8d-8c45938555a8"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gastos}.toString() + " $"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="332" y="8" width="100" height="30" uuid="32c68077-77a7-40c5-9f89-229262498258">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="571f47d0-89d9-4d85-a7fc-373caf9e3416"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ganancias}.toString() + " $"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="437" y="8" width="100" height="30" uuid="862f7038-8888-4322-a25b-6724220be44a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="472c3451-e216-48c5-86c7-2bee5ac7f1c0"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total}.toString() + " $"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="207" splitType="Stretch">
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="37" y="2" width="200" height="200" uuid="6813a9fd-ffd5-4bc5-9240-74748fb33309"/>
+					<box leftPadding="3" bottomPadding="4">
+						<pen lineWidth="6.0" lineColor="#A8895B"/>
+					</box>
+					<chartTitle>
+						<font size="14" isBold="true"/>
+						<titleExpression><![CDATA["Gastos por sucursal"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend>
+						<font size="12"/>
+					</chartLegend>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{id_suc}.toString()]]></seriesExpression>
+						<categoryExpression><![CDATA[""]]></categoryExpression>
+						<valueExpression><![CDATA[$F{gastos}]]></valueExpression>
+						<labelExpression><![CDATA[$F{id_suc}.toString()]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="313" y="2" width="200" height="200" uuid="b6e324fb-940b-41d9-9bd5-012874f22d58"/>
+					<box leftPadding="3" bottomPadding="4">
+						<pen lineWidth="6.0" lineColor="#A8895B"/>
+					</box>
+					<chartTitle>
+						<font size="14" isBold="true"/>
+						<titleExpression><![CDATA["Ganancias por sucursal"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend>
+						<font size="12"/>
+					</chartLegend>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{id_suc}.toString()]]></seriesExpression>
+						<categoryExpression><![CDATA[""]]></categoryExpression>
+						<valueExpression><![CDATA[$F{ganancias}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
