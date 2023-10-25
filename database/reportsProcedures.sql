@@ -121,23 +121,25 @@ END; $suma$
 LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION nivel_inventario_producto(id_p INTEGER,id_s INTEGER)
-RETURNS decimal(2,2) AS $nivel_inventario$
+RETURNS decimal(4,2) AS $nivel_inventario$
 DECLARE
-	id_ult_comp INTEGER; inv_rec INTEGER; vendidos INTEGER; inventario; nivel_inventario decimal(2,2); 
+	id_ult_comp INTEGER; inv_rec INTEGER; vendidos INTEGER; inventario INTEGER; nivel_inventario decimal(4,2); 
 BEGIN
     
     SELECT INTO id_ult_comp id_ultima_compra_inventario_producto(id_p,id_s);
     
     SELECT INTO inv_rec suma_compra_inv(id_ult_comp);
     
-    SELECT SUM(df.cantidad) INTO vendido FROM detalle_factura df
-								   WHERE df.id_producto = id_p;
-	
+    SELECT SUM(df.cantidad) INTO vendidos FROM detalle_factura df
+		INNER JOIN factura f ON df.id_factura = f.id
+		INNER JOIN empleados e ON f.id_empleado = e.id 
+		WHERE df.id_producto = id_p AND e.id_sucursal = id_s;
+
 	SELECT SUM(suma_compra_inv(ci.id)) INTO inventario
 	FROM compras_inventario ci
-	WHERE ci.id_producto = 4;			  
+	WHERE ci.id_producto = id_p AND ci.id_sucursal = id_s;
 
-	SELECT INTO nivel_inventario (inventario-vendidos)::float/inv_rec
+	nivel_inventario := (inventario-vendidos)::decimal(4,2)/inv_rec;
 
 	RETURN nivel_inventario;
     
