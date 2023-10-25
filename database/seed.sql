@@ -1,4 +1,4 @@
-TRUNCATE asistencia, cargos, clientes, compra_inventario, dias, dias_turnos, empleados, factura,
+TRUNCATE asistencia, cargos, clientes, compras_inventario, dias, dias_turnos, empleados, factura,
 historico_alquiler, historico_cargo, historico_gastos_particulares, historico_precios, historico_promociones,
 historico_salario, historico_turno, lugares_geo, productos, proveedores, sucursales, turnos CASCADE;
 
@@ -232,15 +232,30 @@ VALUES
   ((SELECT id FROM factura WHERE monto = 49.9), (SELECT id FROM productos WHERE nombre = 'Coca-cola'), '10-21-2020', 2),
   ((SELECT id FROM factura WHERE monto = 60.6), (SELECT id FROM productos WHERE nombre = 'Carton de huevos'), '10-21-2020', 1);
 
-INSERT INTO compra_inventario (id_sucursal, id_proveedor, id_producto, fecha, cantidad, precio_unidad, gasto_transporte)
+INSERT INTO compras_inventario (id_sucursal, id_producto)
 VALUES
-  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), (SELECT id FROM proveedores WHERE nombre = 'Polar'), (SELECT id FROM productos WHERE nombre = 'Harina PAN'), '10-21-2023', 60, 0.8, 5),
-  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), (SELECT id FROM proveedores WHERE nombre = 'Polar'), (SELECT id FROM productos WHERE nombre = 'Harina PAN'), '10-21-2023', 70, 0.8, 5),
-  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), (SELECT id FROM proveedores WHERE nombre = 'Polar'), (SELECT id FROM productos WHERE nombre = 'Harina PAN'), '10-21-2023', 100, 0.75, 8),
-  ((SELECT id FROM sucursales WHERE direccion = 'Av. Andres Bello'), (SELECT id FROM proveedores WHERE nombre = 'Nabisco'), (SELECT id FROM productos WHERE nombre = 'Oreo'), '05-16-2023', 40, 2, 6),
-  ((SELECT id FROM sucursales WHERE direccion = 'Final Av Intercomunial El Hatillo'), (SELECT id FROM proveedores WHERE nombre = 'Nabisco'), (SELECT id FROM productos WHERE nombre = 'Oreo'), '05-30-2023', 30, 2, 5),
-  ((SELECT id FROM sucursales WHERE direccion = 'Edif Valmy, Avenida Francisco de Miranda'), (SELECT id FROM proveedores WHERE nombre = 'Nabisco'), (SELECT id FROM productos WHERE nombre = 'Oreo'), '05-01-2023', 60, 2, 7),
-  ((SELECT id FROM sucursales WHERE direccion = 'Edif Valmy, Avenida Francisco de Miranda'), (SELECT id FROM proveedores WHERE nombre = 'Bimbo'), (SELECT id FROM productos WHERE nombre = 'Pan'), '05-01-2023', 30, 1.5, 7),
-  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), (SELECT id FROM proveedores WHERE nombre = 'Bimbo'), (SELECT id FROM productos WHERE nombre = 'Pan'), '05-01-2023', 50, 1.5, 7),
-  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), (SELECT id FROM proveedores WHERE nombre = 'Bimbo'), (SELECT id FROM productos WHERE nombre = 'Pan'), '05-01-2023', 40, 1.5, 7);
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'),(SELECT id FROM productos WHERE nombre = 'Harina PAN')),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'),(SELECT id FROM productos WHERE nombre = 'Pan')),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'),(SELECT id FROM productos WHERE nombre = 'Coca-cola')),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'),(SELECT id FROM productos WHERE nombre = 'Pan')),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'),(SELECT id FROM productos WHERE nombre = 'Oreo')),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'),(SELECT id FROM productos WHERE nombre = 'Leche')),
+  ((SELECT id FROM sucursales WHERE direccion = 'Av. Andres Bello'),(SELECT id FROM productos WHERE nombre = 'Pasta')),
+  ((SELECT id FROM sucursales WHERE direccion = 'Av. Andres Bello'),(SELECT id FROM productos WHERE nombre = 'Carton de huevos')),
+  ((SELECT id FROM sucursales WHERE direccion = 'Av. Andres Bello'),(SELECT id FROM productos WHERE nombre = 'Pasta'));
 
+
+INSERT INTO proveedores_compras_inventario (id_compra_inventario, id_proveedor, fecha, cantidad, precio_unidad, gasto_transporte)
+VALUES
+  (1, (SELECT id FROM proveedores WHERE nombre = 'Polar'), '10-21-2023', 60, 0.8, 5),
+  (2, (SELECT id FROM proveedores WHERE nombre = 'Bimbo'), '10-21-2023', 70, 0.8, 5),
+  (3, (SELECT id FROM proveedores WHERE nombre = 'Pepsico'), '10-21-2023', 50, 0.75, 8),
+  (4, (SELECT id FROM proveedores WHERE nombre = 'Bimbo'), '05-16-2023', 50, 2, 6),
+  (4, (SELECT id FROM proveedores WHERE nombre = 'Polar'), '05-17-2023', 50, 2, 5),
+  (5, (SELECT id FROM proveedores WHERE nombre = 'Nabisco'), '05-01-2023', 60, 2, 7),
+  (6, (SELECT id FROM proveedores WHERE nombre = 'Polar'), '05-01-2023', 30, 1.5, 7),
+  (7, (SELECT id FROM proveedores WHERE nombre = 'Pepsico'), '05-01-2023', 50, 1.5, 7),
+  (7, (SELECT id FROM proveedores WHERE nombre = 'Bimbo'), '05-01-2023', 40, 1.5, 7),
+  (7, (SELECT id FROM proveedores WHERE nombre = 'Pepsico'), '05-06-2023', 40, 1.5, 7),
+  (8, (SELECT id FROM proveedores WHERE nombre = 'Polar'), '05-06-2023', 40, 1.5, 7),
+  (9, (SELECT id FROM proveedores WHERE nombre = 'Polar'), '06-15-2023', 60, 1.5, 7);
