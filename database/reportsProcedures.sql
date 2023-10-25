@@ -75,7 +75,7 @@ as $$
 		((hc.fecha_inicio < fecha_reporte and hc.fecha_fin isnull) or (hc.fecha_fin > fecha_reporte and 
 		hc.fecha_inicio < fecha_reporte)) and 
 		((hs.fecha_inicio < fecha_reporte and hs.fecha_fin isnull) or (hs.fecha_fin > fecha_reporte and 
-		hs.fecha_inicio < fecha_reporte)) and hc.id_cargo=c.id; 
+		hs.fecha_inicio < fecha_reporte)) and hc.id_cargo=c.id and e.activo = true; 
 	
 $$ language sql;
 
