@@ -157,10 +157,15 @@ CREATE TABLE IF NOT EXISTS detalle_factura (
     FOREIGN KEY (id_producto,fecha_inicio_precio) REFERENCES historico_precios(id_producto,fecha_inicio)
 );
 
-CREATE TABLE IF NOT EXISTS compra_inventario (
-    id_sucursal SERIAL REFERENCES sucursales(id),
+CREATE TABLE IF NOT EXISTS compras_inventario (
+    id SERIAL PRIMARY KEY,
+    id_sucursal INTEGER REFERENCES sucursales(id),
+    id_producto INTEGER REFERENCES productos(id)
+);
+
+CREATE TABLE IF NOT EXISTS proveedores_compras_inventario (
+    id_compra_inventario INTEGER REFERENCES compras_inventario(id),
     id_proveedor INTEGER REFERENCES proveedores(id),
-    id_producto INTEGER REFERENCES productos(id),
     fecha DATE NOT NULL,
     cantidad INTEGER NOT NULL,
     precio_unidad DECIMAL (10,2) NOT NULL,
@@ -168,7 +173,7 @@ CREATE TABLE IF NOT EXISTS compra_inventario (
     CONSTRAINT val_transporte CHECK (gasto_transporte >= 0),
     CONSTRAINT val_precio CHECK (precio_unidad >= 0),
     CONSTRAINT val_cantidad CHECK (cantidad > 0),
-    PRIMARY KEY (id_sucursal,id_proveedor,id_producto,fecha)
+    PRIMARY KEY (id_compra_inventario,id_proveedor,fecha)
 );
 
 
