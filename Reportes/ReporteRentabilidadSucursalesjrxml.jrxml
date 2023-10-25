@@ -5,7 +5,7 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="fecha_reporte" class="java.sql.Date"/>
 	<queryString>
-		<![CDATA[select * from rentabilidad_sucursales($P{fecha_reporte}); ]]>
+		<![CDATA[select * from rentabilidad_sucursales($P{fecha_reporte});]]>
 	</queryString>
 	<field name="id_suc" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="id_suc"/>
@@ -123,7 +123,7 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bbe704a9-d3d2-4c96-ae40-fb93b820a720"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial Black" size="16"/>
+					<font fontName="Arial Black" size="14"/>
 				</textElement>
 				<text><![CDATA[id sucursal]]></text>
 			</staticText>
@@ -132,7 +132,7 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bf5a5bc0-5c89-4713-b4e2-60323b808523"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial Black" size="16"/>
+					<font fontName="Arial Black" size="14"/>
 				</textElement>
 				<text><![CDATA[dirección]]></text>
 			</staticText>
@@ -141,7 +141,7 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2281d3b8-5457-4420-9d8d-8c45938555a8"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial Black" size="16"/>
+					<font fontName="Arial Black" size="14"/>
 				</textElement>
 				<text><![CDATA[gastos]]></text>
 			</staticText>
@@ -150,7 +150,7 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="571f47d0-89d9-4d85-a7fc-373caf9e3416"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial Black" size="16"/>
+					<font fontName="Arial Black" size="14"/>
 				</textElement>
 				<text><![CDATA[ganancias]]></text>
 			</staticText>
@@ -159,7 +159,7 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="472c3451-e216-48c5-86c7-2bee5ac7f1c0"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial Black" size="16"/>
+					<font fontName="Arial Black" size="14"/>
 				</textElement>
 				<text><![CDATA[total]]></text>
 			</staticText>

@@ -169,7 +169,7 @@
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial Black" size="16"/>
+					<font fontName="Arial Black" size="14"/>
 				</textElement>
 				<text><![CDATA[Nombre Completo]]></text>
 			</staticText>
@@ -178,7 +178,7 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bf5a5bc0-5c89-4713-b4e2-60323b808523"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial Black" size="16"/>
+					<font fontName="Arial Black" size="14"/>
 				</textElement>
 				<text><![CDATA[Cedula]]></text>
 			</staticText>
@@ -187,7 +187,7 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2281d3b8-5457-4420-9d8d-8c45938555a8"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial Black" size="16"/>
+					<font fontName="Arial Black" size="14"/>
 				</textElement>
 				<text><![CDATA[Salario]]></text>
 			</staticText>
@@ -196,7 +196,7 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="571f47d0-89d9-4d85-a7fc-373caf9e3416"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial Black" size="13"/>
+					<font fontName="Arial Black" size="14"/>
 				</textElement>
 				<text><![CDATA[Horas req / Horas rea]]></text>
 			</staticText>
