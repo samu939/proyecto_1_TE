@@ -244,7 +244,6 @@ VALUES
   ((SELECT id FROM sucursales WHERE direccion = 'Av. Andres Bello'),(SELECT id FROM productos WHERE nombre = 'Carton de huevos')),
   ((SELECT id FROM sucursales WHERE direccion = 'Av. Andres Bello'),(SELECT id FROM productos WHERE nombre = 'Pasta'));
 
-
 INSERT INTO proveedores_compras_inventario (id_compra_inventario, id_proveedor, fecha, cantidad, precio_unidad, gasto_transporte)
 VALUES
   (1, (SELECT id FROM proveedores WHERE nombre = 'Polar'), '10-21-2023', 60, 0.8, 5),

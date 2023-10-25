@@ -91,3 +91,33 @@ begin
 	
 end; $$ language plpgsql;
 
+CREATE OR REPLACE FUNCTION id_ultima_compra_inventario_producto(id_p INTEGER,id_s INTEGER)
+RETURNS INTEGER AS $id_ult_comp$
+DECLARE
+	id_ult_comp INTEGER;
+BEGIN
+    
+     	SELECT MAX(ci.id) INTO id_ult_comp
+			FROM compras_inventario ci
+			WHERE ci.id_producto = id_p AND ci.id_sucursal = id_s;
+			
+		RETURN id_ult_comp;
+    
+END; $id_ult_comp$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION nivel_inventario_producto(id_p INTEGER,id_s INTEGER)
+RETURNS INTEGER AS $nivel_inventario$
+DECLARE
+	id_ult_comp INTEGER; inventario INTEGER; vendidos INTEGER; nivel_inventario INTEGER;
+BEGIN
+    
+    SELECT INTO id_ult_comp id_ultima_compra_inventario_producto(id_p,id_s);
+    
+    SELECT SUM(cantidad) INTO nivel_inventario FROM proveedores_compras_inventario
+    									 WHERE id_compra_inventario = id_ult_comp;
+    
+    RETURN nivel_inventario;
+    
+END; $nivel_inventario$
+LANGUAGE plpgsql;
