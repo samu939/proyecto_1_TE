@@ -9,9 +9,9 @@ begin
 		+ coalesce((select sum(hgp.monto) from historico_gastos_particulares hgp 
 		where hgp.id_sucursal = sucursal and to_char(hgp.fecha, 'YYYY-MM') = to_char(fecha_reporte, 'YYYY-MM')
 		and hgp.fecha<= fecha_reporte),0)
-		+ coalesce((select sum((ci.precio_unidad * ci.cantidad)+ci.gasto_transporte) from compra_inventario ci  
-		where ci.id_sucursal = sucursal and to_char(ci.fecha, 'YYYY-MM') = to_char(fecha_reporte, 'YYYY-MM')
-		and ci.fecha<= fecha_reporte),0)
+		+ coalesce((select sum((ci.precio_unidad * ci.cantidad)+ci.gasto_transporte) from proveedores_compras_inventario ci, compras_inventario com  
+		where com.id_sucursal = sucursal and to_char(ci.fecha, 'YYYY-MM') = to_char(fecha_reporte, 'YYYY-MM')
+		and ci.fecha<= fecha_reporte and com.id=ci.id_compra_inventario),0)
 		+coalesce ((select sum( hs.salario) from empleados e, historico_salario hs where 
 		e.id_sucursal=sucursal and hs.id_empleado=e.id and ((hs.fecha_inicio < fecha_reporte and hs.fecha_fin isnull) 
 		or (hs.fecha_fin > fecha_reporte and hs.fecha_inicio < fecha_reporte))),0) 
@@ -75,7 +75,7 @@ as $$
 		((hc.fecha_inicio < fecha_reporte and hc.fecha_fin isnull) or (hc.fecha_fin > fecha_reporte and 
 		hc.fecha_inicio < fecha_reporte)) and 
 		((hs.fecha_inicio < fecha_reporte and hs.fecha_fin isnull) or (hs.fecha_fin > fecha_reporte and 
-		hs.fecha_inicio < fecha_reporte)) and hc.id_cargo=c.id; 
+		hs.fecha_inicio < fecha_reporte)) and hc.id_cargo=c.id and e.activo = true; 
 	
 $$ language sql;
 
