@@ -139,9 +139,25 @@ BEGIN
 	FROM compras_inventario ci
 	WHERE ci.id_producto = id_p AND ci.id_sucursal = id_s;
 
-	nivel_inventario := (inventario-vendidos)::decimal(4,2)/inv_rec;
+	nivel_inventario := (inventario-vendidos)/inv_rec::decimal(4,2);
 
 	RETURN nivel_inventario;
     
 END; $nivel_inventario$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION nivel_inventario_sucursal(id_s INTEGER)
+RETURNS TABLE (
+	producto VARCHAR(40),
+	nivel_inventario decimal(4,2)
+) AS $$
+
+BEGIN
+    
+    RETURN QUERY
+	SELECT p.nombre, nivel_inventario_producto(p.id,id_s) nivel_inventario
+	FROM productos p
+	WHERE nivel_inventario_producto(p.id,id_s) < 0.1;
+    
+END; $$
 LANGUAGE plpgsql;
