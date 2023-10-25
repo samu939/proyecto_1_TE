@@ -6,8 +6,7 @@
 	<parameter name="fecha_reporte" class="java.sql.Date"/>
 	<parameter name="sucursal" class="java.lang.Integer"/>
 	<queryString>
-		<![CDATA[select * from nomina($P{sucursal},$P{fecha_reporte});
-]]>
+		<![CDATA[select * from nomina($P{sucursal},$P{fecha_reporte});]]>
 	</queryString>
 	<field name="nombre" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="nombre"/>
@@ -199,7 +198,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial Black" size="13"/>
 				</textElement>
-				<text><![CDATA[Horas req/ Horas rea]]></text>
+				<text><![CDATA[Horas req / Horas rea]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -232,14 +231,23 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{salario}.toString() + " $"]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="387" y="0" width="159" height="30" uuid="e95b8315-806a-4ddf-a7b5-cffbafd0c284">
+			<textField isBlankWhenNull="true">
+				<reportElement x="403" y="0" width="83" height="30" uuid="e95b8315-806a-4ddf-a7b5-cffbafd0c284">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="98ec778a-2f59-426e-83ce-46c32d079fe0"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{horasreq}.toString() + " / " + $F{horasrea}.toString()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{horasreq}.toString() + "   / " ]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="479" y="0" width="83" height="30" uuid="a0fc5b3f-e1ca-4365-b5b3-20b68654fe33">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="98ec778a-2f59-426e-83ce-46c32d079fe0"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{horasrea}.toString() ]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
