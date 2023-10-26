@@ -157,7 +157,7 @@ BEGIN
     RETURN QUERY
 	SELECT p.nombre, nivel_inventario_producto(p.id,id_s) nivel_inventario
 	FROM productos p
-	WHERE nivel_inventario_producto(p.id,id_s) < 0.1;
+	WHERE nivel_inventario_producto(p.id,id_s) < 0.30;
     
 END; $$
 LANGUAGE plpgsql;
