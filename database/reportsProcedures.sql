@@ -161,3 +161,18 @@ BEGIN
     
 END; $$
 LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION gasto_compra_inv_mensual(id_s INTEGER, anual INTEGER, mes INTEGER)
+RETURNS decimal(4,2) AS $$
+DECLARE total decimal(4,2);
+BEGIN
+
+	SELECT SUM(p.cantidad*p.precio_unidad + p.gasto_transporte) INTO total
+		FROM compras_inventario c
+		INNER JOIN proveedores_compras_inventario p ON c.id = p.id_compra_inventario
+		WHERE c.id_sucursal = id_s AND EXTRACT(MONTH FROM p.fecha) = mes AND EXTRACT(YEAR FROM p.fecha) = anual;
+
+	RETURN total;
+
+END; $$
+LANGUAGE plpgsql;

@@ -24,16 +24,16 @@ VALUES
   ((SELECT id FROM productos WHERE nombre = 'Oreo'), '01-21-2023', 2),
   ((SELECT id FROM productos WHERE nombre = 'Coca-cola'), '01-21-2023', 3);
 
-INSERT INTO historico_promociones (id_producto, fecha_inicio_precio, fecha_inicio, descuento)
+INSERT INTO historico_promociones (id_producto, fecha_inicio_precio, fecha_inicio, fecha_fin,descuento)
 VALUES
-  ((SELECT id FROM productos WHERE nombre = 'Pan'), '02-15-2023', '02-21-2023', 10),
-  ((SELECT id FROM productos WHERE nombre = 'Carton de huevos'), '02-21-2023', '02-28-2023', 5),
-  ((SELECT id FROM productos WHERE nombre = 'Leche'), '03-01-2023', '03-10-2023', 5),
-  ((SELECT id FROM productos WHERE nombre = 'Pasta'), '04-16-2023', '04-24-2023', 10),
-  ((SELECT id FROM productos WHERE nombre = 'Harina PAN'), '05-20-2023', '05-27-2023', 20),
-  ((SELECT id FROM productos WHERE nombre = 'Tosticos'), '06-09-2023', '06-16-2023', 5),
-  ((SELECT id FROM productos WHERE nombre = 'Oreo'), '07-13-2023', '07-20-2023', 15),
-  ((SELECT id FROM productos WHERE nombre = 'Coca-cola'), '08-20-2023', '10-21-2023', 10);
+  ((SELECT id FROM productos WHERE nombre = 'Pan'), '01-21-2023', '02-21-2023','01-28-2023', 10),
+  ((SELECT id FROM productos WHERE nombre = 'Carton de huevos'), '01-21-2023', '02-28-2023','03-28-2023', 5),
+  ((SELECT id FROM productos WHERE nombre = 'Leche'), '01-21-2023', '03-10-2023','03-18-2023', 5),
+  ((SELECT id FROM productos WHERE nombre = 'Pasta'), '01-21-2023', '04-24-2023','04-28-2023', 10),
+  ((SELECT id FROM productos WHERE nombre = 'Harina PAN'), '01-21-2023', '05-27-2023','06-10-2023', 20),
+  ((SELECT id FROM productos WHERE nombre = 'Tosticos'), '01-21-2023', '06-16-2023','06-26-2023', 5),
+  ((SELECT id FROM productos WHERE nombre = 'Oreo'), '01-21-2023', '07-20-2023','07-28-2023', 15),
+  ((SELECT id FROM productos WHERE nombre = 'Coca-cola'), '01-21-2023', '10-21-2023','10-28-2023', 10);
 
 INSERT INTO sucursales (direccion, id_lugar)
 VALUES
@@ -188,18 +188,18 @@ VALUES
 
 INSERT INTO historico_gastos_particulares (id_sucursal, fecha, monto, descripcion)
 VALUES
-  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '08-19-2018', 80, 'Mantenimiento de cajeros'),
-  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '08-19-2019', 30, 'Mantenimiento de neveras'),
-  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), '08-19-2021', 300, 'Compra de equipos de refrigeracion'),
-  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), '08-10-2021', 30, 'Productos de limpieza'),
-  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), '08-19-2022', 200, 'Gastos legales'),
-  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), '08-19-2022', 70, 'Mantenimiento de luces');
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '01-08-2023', 80, 'Mantenimiento de cajeros'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '01-12-2023', 30, 'Mantenimiento de neveras'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), '01-20-2023', 300, 'Compra de equipos de refrigeracion'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), '01-21-2023', 30, 'Productos de limpieza'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), '01-11-2023', 200, 'Gastos legales'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), '01-17-2023', 70, 'Mantenimiento de luces');
 
 INSERT INTO historico_alquiler (id_sucursal, fecha, monto)
 VALUES
-  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '08-19-2006', 1200),
-  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), '08-19-2008', 700),
-  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), '08-19-2005', 450);
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '01-01-2023', 1200),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), '01-01-2023', 700),
+  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), '01-01-2023', 800);
 
 INSERT INTO factura (id_cliente, id_empleado, fecha, monto)
 VALUES
