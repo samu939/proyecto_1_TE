@@ -111,3 +111,21 @@ BEGIN
 END;
 $function$
 
+-- Reporte para mejores clientes (8)
+CREATE OR REPLACE FUNCTION public.get_best_clients(query_id integer DEFAULT NULL::integer)
+ RETURNS TABLE("Nombre" text, "Monto Total (Bs)" numeric)
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+  RETURN QUERY
+    SELECT (c.datos).nombre1 || ' ' || (c.datos).apellido1 as "Nombre", SUM(f.monto) as "Monto Total (Bs)"
+    FROM clientes c
+    JOIN factura f ON c.id = f.id_cliente
+    JOIN detalle_factura df ON df.id_factura = f.id
+    JOIN empleados e ON e.id = f.id_empleado
+    JOIN sucursales s ON s.id = e.id_sucursal
+    WHERE (s.id = query_id OR query_id IS NULL)
+    GROUP BY c.id, (c.datos).nombre1, (c.datos).apellido1
+    ORDER BY SUM(f.monto) DESC;
+END;
+$function$
