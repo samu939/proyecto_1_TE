@@ -3,9 +3,10 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteRentabilidadSucursalesjrxml" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="76526c0d-8d45-429a-b4cb-1e3c2f6e6eaf">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="postgreDocker"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<parameter name="fecha_reporte" class="java.sql.Date"/>
+	<parameter name="ano" class="java.lang.Short"/>
+	<parameter name="mes" class="java.lang.Short"/>
 	<queryString>
-		<![CDATA[select * from rentabilidad_sucursales($P{fecha_reporte});]]>
+		<![CDATA[select * from rentabilidad_sucursales($P{mes},$P{ano});]]>
 	</queryString>
 	<field name="id_suc" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="id_suc"/>
@@ -57,18 +58,32 @@
 	<pageHeader>
 		<band height="53" splitType="Stretch">
 			<rectangle>
-				<reportElement x="37" y="1" width="460" height="50" backcolor="#A8895B" uuid="cd0f48b0-807b-42a8-bd35-cce19cd316fd"/>
+				<reportElement x="15" y="1" width="522" height="50" backcolor="#A8895B" uuid="cd0f48b0-807b-42a8-bd35-cce19cd316fd"/>
 				<graphicElement>
 					<pen lineWidth="0.0"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="94" y="11" width="346" height="30" forecolor="#F6F3EC" uuid="a27893ea-541c-40f0-8934-5ca9ba8eb0e8"/>
+				<reportElement x="23" y="11" width="346" height="30" forecolor="#F6F3EC" uuid="a27893ea-541c-40f0-8934-5ca9ba8eb0e8"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Britannic Bold" size="25"/>
 				</textElement>
 				<text><![CDATA[Rentabilidad de las sucursales]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="370" y="11" width="100" height="30" forecolor="#F6F3EC" uuid="22bfc32f-0085-4704-9198-5012365c9f31"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Britannic Bold" size="25"/>
+				</textElement>
+				<textFieldExpression><![CDATA["del "+$P{mes} + "/"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="441" y="11" width="100" height="30" forecolor="#F6F3EC" uuid="be12ba24-b22d-41cf-bceb-637d062ec4f8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Britannic Bold" size="25"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ano}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
