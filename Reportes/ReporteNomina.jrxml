@@ -3,10 +3,11 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteNomina" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="98951418-5c55-4dc4-b29f-e3a5c515af89">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="postgreDocker"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<parameter name="fecha_reporte" class="java.sql.Date"/>
+	<parameter name="mes" class="java.lang.Short"/>
+	<parameter name="ano" class="java.lang.Short"/>
 	<parameter name="sucursal" class="java.lang.Integer"/>
 	<queryString>
-		<![CDATA[select * from nomina($P{sucursal},$P{fecha_reporte});]]>
+		<![CDATA[select * from nomina($P{sucursal},$P{mes},$P{ano});]]>
 	</queryString>
 	<field name="nombre" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="nombre"/>
@@ -99,26 +100,40 @@
 		<band height="53" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<rectangle>
-				<reportElement x="38" y="1" width="460" height="50" backcolor="#A8895B" uuid="f92d35e3-0f4f-4083-8245-49ceac5063fa"/>
+				<reportElement x="-7" y="1" width="567" height="50" backcolor="#A8895B" uuid="f92d35e3-0f4f-4083-8245-49ceac5063fa"/>
 				<graphicElement>
 					<pen lineWidth="0.0"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="78" y="11" width="346" height="30" forecolor="#F6F3EC" uuid="c7d89031-9381-491e-9c37-56ae57783a0d"/>
+				<reportElement x="10" y="11" width="346" height="30" forecolor="#F6F3EC" uuid="c7d89031-9381-491e-9c37-56ae57783a0d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Britannic Bold" size="25"/>
 				</textElement>
 				<text><![CDATA[Nomina de empleados sucursal]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="431" y="11" width="70" height="30" forecolor="#F6F3EC" uuid="abf04922-b26c-46cc-8999-c4462fdab220">
+				<reportElement x="367" y="11" width="70" height="30" forecolor="#F6F3EC" uuid="abf04922-b26c-46cc-8999-c4462fdab220">
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Britannic Bold" size="25"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{sucursal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="378" y="11" width="100" height="30" forecolor="#F6F3EC" uuid="4e2c5762-4986-425d-8182-7bd3636f05ab"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Britannic Bold" size="25"/>
+				</textElement>
+				<textFieldExpression><![CDATA["del "+$P{mes} + "/"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="449" y="11" width="100" height="30" forecolor="#F6F3EC" uuid="9b6c3149-cf14-4a08-b89f-695234a357ed"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Britannic Bold" size="25"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ano}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -238,7 +253,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{horasreq}.toString() + "   / " ]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{horasreq}.toString() + "   / "]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="479" y="0" width="83" height="30" uuid="a0fc5b3f-e1ca-4365-b5b3-20b68654fe33">
@@ -247,7 +262,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{horasrea}.toString() ]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{horasrea}.toString()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
