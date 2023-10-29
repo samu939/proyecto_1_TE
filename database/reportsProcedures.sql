@@ -162,17 +162,167 @@ BEGIN
 END; $$
 LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION gasto_compra_inv_mensual(id_s INTEGER, anual INTEGER, mes INTEGER)
-RETURNS decimal(4,2) AS $$
-DECLARE total decimal(4,2);
+create or replace function ADD_MONTHS(var_dte date,cnt int) returns setof date as
+$$
+declare
+qry text;
+begin
+qry = format( 'select (''%s''::date + interval ''%s'')::date',var_dte,cnt||' month') ;
+RETURN QUERY
+     EXECUTE qry;
+end
+$$
+language plpgsql
+
+CREATE OR REPLACE FUNCTION gasto_compra_inv_en_rango_tabla(id_s INTEGER, fecha_inicio DATE, fecha_fin DATE)
+RETURNS TABLE (
+	fecha date,
+	producto productos.nombre%type,
+	proveedor proveedores.nombre%type,
+	cantidad INTEGER,
+	precio_unidad proveedores_compras_inventario.precio_unidad%type,
+	gasto_transporte proveedores_compras_inventario.gasto_transporte%type
+) AS $$
 BEGIN
 
-	SELECT SUM(p.cantidad*p.precio_unidad + p.gasto_transporte) INTO total
-		FROM compras_inventario c
-		INNER JOIN proveedores_compras_inventario p ON c.id = p.id_compra_inventario
-		WHERE c.id_sucursal = id_s AND EXTRACT(MONTH FROM p.fecha) = mes AND EXTRACT(YEAR FROM p.fecha) = anual;
+	RETURN QUERY SELECT p.fecha,prod.nombre as producto,prov.nombre as proveedor,p.cantidad,p.precio_unidad, p.gasto_transporte
+	FROM compras_inventario c
+	INNER JOIN proveedores_compras_inventario p ON c.id = p.id_compra_inventario
+	INNER JOIN productos prod on c.id_producto = prod.id
+	INNER JOIN proveedores prov on p.id_proveedor = prov.id
+	WHERE c.id_sucursal = id_s AND p.fecha >= fecha_inicio AND p.fecha <= fecha_fin;
+
+END; $$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION gasto_compra_inv_en_rango(id_s INTEGER, fecha_inicio DATE, fecha_fin DATE)
+RETURNS float AS $$
+DECLARE total float;
+BEGIN
+
+	SELECT SUM(cantidad*precio_unidad + gasto_transporte) INTO total
+		FROM gasto_compra_inv_en_rango_tabla(id_s, fecha_inicio,fecha_fin);
 
 	RETURN total;
 
 END; $$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION gasto_particulares_en_rango_tabla(id_s INTEGER, fecha_inicio DATE, fecha_fin DATE)
+RETURNS TABLE(
+	fecha historico_gastos_particulares.fecha%type,
+	monto historico_gastos_particulares.monto%type,
+	descripcion historico_gastos_particulares.descripcion%type,
+) AS $$
+BEGIN
+
+	RETURN QUERY SELECT fecha,monto,descripcion
+		FROM historico_gastos_particulares h
+		WHERE h.id_sucursal = id_s AND h.fecha >= fecha_inicio AND h.fecha <= fecha_fin;
+
+	RETURN total;
+
+END; $total$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION gasto_particulares_en_rango(id_s INTEGER, fecha_inicio DATE, fecha_fin DATE)
+RETURNS float AS $total$
+DECLARE total float;
+BEGIN
+
+	SELECT SUM(h.monto) INTO total
+		FROM historico_gastos_particulares h
+		WHERE h.id_sucursal = id_s AND h.fecha >= fecha_inicio AND h.fecha <= fecha_fin;
+
+	RETURN total;
+
+END; $total$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION salario_emp_mes(id_e INTEGER, fecha DATE)
+RETURNS float AS $$
+DECLARE salario float;
+BEGIN
+
+	SELECT h.salario INTO salario
+	FROM historico_salario h
+	WHERE h.id_empleado = id_e AND h.fecha_inicio = (SELECT MAX(h.fecha_inicio)
+											  FROM historico_salario h
+											  WHERE h.id_empleado = id_e AND h.fecha_inicio <= fecha)
+
+	RETURN salario;
+
+END; $$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION gastos_nomina_en_rango_tabla(id_s INTEGER, fecha_inicio DATE, fecha_fin DATE)
+RETURNS TABLE(
+	mes varchar(20),
+	costo historico_salario.salario%type
+) AS $$
+DECLARE fecha_i DATE; fecha_f DATE; temp_date DATE; m_between INTEGER; nom_mes historico_salario.salario%type;
+
+BEGIN
+
+	DROP TABLE IF EXISTS nom_mes_table;
+
+	CREATE TEMP TABLE nom_mes_table(
+		mes varchar(20),
+		costo historico_salario.salario%type
+	);
+
+	SELECT into fecha_f date_trunc('month', fecha_fin)::DATE;
+
+	if EXTRACT(DAY FROM fecha_inicio) = 1 then
+   		fecha_i := fecha_inicio;
+	else
+
+		SELECT INTO fecha_i date_trunc('month',fecha_inicio + INTERVAL '1 month')::DATE;
+
+	end if;
+
+	select INTO m_between extract(year from age(fecha_f, fecha_i)) * 12 +
+	extract(month from age(fecha_f, fecha_i));
+
+	for mes_add in 0..m_between loop
+
+		SELECT INTO temp_date ADD_MONTHS(fecha_i,mes_add);
+
+		SELECT SUM(salario_emp_mes(e.id,temp_date)) INTO nom_mes
+		FROM empleados e WHERE e.id_sucursal = id_s;
+
+		INSERT INTO nom_mes_table (mes,costo) VALUES (TO_CHAT(temp_date,'Mon, yyyy'),nom_mes);
+
+	end loop;
+
+	RETURN QUERY SELECT * FROM nom_mes_table;
+
+END; $$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION gastos_nomina_en_rango(id_s INTEGER, fecha_inicio DATE, fecha_fin DATE)
+RETURNS float AS $total$
+DECLARE total float;
+BEGIN
+
+	SELECT SUM(costo) INTO total
+	FROM gastos_nomina_en_rango_tabla(id_s,fecha_inicio,fecha_fin);
+
+	RETURN total;
+
+END; $total$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION gastos_sucursal_en_rango(id_s INTEGER, fecha_inicio DATE, fecha_fin DATE)
+RETURNS float AS $total$
+DECLARE total float;
+BEGIN
+
+	total := gastos_nomina_en_rango(id_s,fecha_inicio,fecha_fin) + 
+			 gasto_particulares_en_rango(id_s, fecha_inicio, fecha_fin) +
+			 gasto_compra_inv_en_rango(id_s, fecha_inicio, fecha_fin);
+
+	RETURN total;
+
+END; $total$
 LANGUAGE plpgsql;
