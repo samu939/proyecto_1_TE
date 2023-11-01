@@ -184,9 +184,9 @@ begin
 qry = format( 'select (''%s''::date + interval ''%s'')::date',var_dte,cnt||' month') ;
 RETURN QUERY
      EXECUTE qry;
-end
+end;
 $$
-language plpgsql
+language plpgsql;
 
 CREATE OR REPLACE FUNCTION gasto_compra_inv_en_rango_tabla(id_s INTEGER, fecha_inicio DATE, fecha_fin DATE)
 RETURNS TABLE (
@@ -226,15 +226,15 @@ CREATE OR REPLACE FUNCTION gasto_particulares_en_rango_tabla(id_s INTEGER, fecha
 RETURNS TABLE(
 	fecha historico_gastos_particulares.fecha%type,
 	monto historico_gastos_particulares.monto%type,
-	descripcion historico_gastos_particulares.descripcion%type,
-) AS $$
+	descripcion historico_gastos_particulares.descripcion%type
+) AS $total$
 BEGIN
 
 	RETURN QUERY SELECT fecha,monto,descripcion
 		FROM historico_gastos_particulares h
 		WHERE h.id_sucursal = id_s AND h.fecha >= fecha_inicio AND h.fecha <= fecha_fin;
 
-	RETURN total;
+	
 
 END; $total$
 LANGUAGE plpgsql;
@@ -262,7 +262,7 @@ BEGIN
 	FROM historico_salario h
 	WHERE h.id_empleado = id_e AND h.fecha_inicio = (SELECT MAX(h.fecha_inicio)
 											  FROM historico_salario h
-											  WHERE h.id_empleado = id_e AND h.fecha_inicio <= fecha)
+											  WHERE h.id_empleado = id_e AND h.fecha_inicio <= fecha);
 
 	RETURN salario;
 
@@ -282,7 +282,7 @@ BEGIN
 
 	CREATE TEMP TABLE nom_mes_table(
 		mes varchar(20),
-		costo historico_salario.salario%type
+		costo numeric(10,2)
 	);
 
 	SELECT into fecha_f date_trunc('month', fecha_fin)::DATE;
@@ -360,7 +360,7 @@ BEGIN
     GROUP BY p.id, p.nombre, hp.precio
     ORDER BY cantidad_total DESC;
 END;
-$function$
+$function$;
 
 -- Reporte para mejores clientes (8)
 CREATE OR REPLACE FUNCTION public.get_best_clients(query_id integer DEFAULT NULL::integer)

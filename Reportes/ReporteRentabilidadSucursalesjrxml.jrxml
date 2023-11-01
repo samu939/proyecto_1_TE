@@ -51,7 +51,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<imageExpression><![CDATA["C:/Users/Samuel/Downloads/_ef703704-a3d4-4a83-87d5-63f01fe8abd3.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["imagenes/_ef703704-a3d4-4a83-87d5-63f01fe8abd3.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</title>
