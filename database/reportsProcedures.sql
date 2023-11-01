@@ -1,6 +1,7 @@
 create or replace function gastos_mes (sucursal int, fecha_reporte date) returns decimal(12,2)
 as $$
 declare gastos decimal (12,2);
+
 begin 
 	
 	select coalesce ((select sum(ha.monto) from historico_alquiler ha 
@@ -12,25 +13,29 @@ begin
 		+coalesce ((select sum( hs.salario) from empleados e, historico_salario hs where 
 		e.id_sucursal=sucursal and hs.id_empleado=e.id and ((hs.fecha_inicio < fecha_reporte and hs.fecha_fin isnull) 
 		or (hs.fecha_fin > fecha_reporte and hs.fecha_inicio < fecha_reporte))),0) 
+
 	    into gastos;
-	
+
 	return gastos;
-	
+
 end; $$ language plpgsql;
 
 create or replace function ganancias_mes (sucursal int, fecha_reporte date) returns decimal(12,2)
 as $$
 declare ganancias decimal (12,2);
+
 begin 
 	
 	select coalesce ((select sum(f.monto) from factura f, empleados e 
 		where e.id_sucursal = sucursal and f.id_empleado=e.id and 
 		to_char(f.fecha , 'YYYY-MM') = to_char(fecha_reporte, 'YYYY-MM')),0)
+
 	    into ganancias;
-	
+
 	return ganancias;
-	
+
 end; $$ language plpgsql;
+
 
 create or replace function  rentabilidad_sucursales (mes int, ano int) 
 returns table(id_suc int, dir varchar(50),gastos decimal(12,2),ganancias decimal(12,2),total decimal(12,2)) 
@@ -58,17 +63,21 @@ begin
 		select (EXTRACT(epoch FROM sum(a.hora_salida - a.hora_entrada))/3600)from asistencia a 
 		where a.id_empleado=emp and to_char(a.fecha, 'YYYY-MM') = to_char(fecha_reporte, 'YYYY-MM')  into horas_realizadas;
 	
+
 	return query select horas_requeridas, horas_realizadas;
-	
+
 end; $$ language plpgsql;
 
+
 create or replace function nomina (sucursal int, mes int, ano int) returns 
+
 table (nombre varchar(200), cedula varchar(10), cargo varchar(40),salario decimal (10,2),horasReq decimal(5,2), horasRea decimal(5,2))
 as $$
 
 
 		select (e.datos).nombre1||' '||(e.datos).nombre2 ||' '||(e.datos).apellido1||' '||(e.datos).apellido2 "Nombre",
 		(e.datos).cedula_identidad "Cedula", c.nombre "Cargo", hs.salario "Salario",
+
 		(select hex.horasReq from horas_extra(e.id,mes,ano) hex) "Horas Requeridas",
 		(select hex.horasRea from horas_extra(e.id,mes,ano) hex) "Horas Realizadas"
 		from historico_cargo hc, historico_salario hs, empleados e, cargos c where 
@@ -80,19 +89,21 @@ as $$
 		(hs.fecha_fin > (select cast ( cast (ano as varchar) || '-' || cast (mes as varchar) || '-' || '1' as date)) and 
 		hs.fecha_inicio < (select cast ( cast (ano as varchar) || '-' || cast (mes as varchar) || '-' || '1' as date)))) and hc.id_cargo=c.id and e.activo = true; 
 	
+
 $$ language sql;
 
 create or replace function total_nomina (sucursal int) returns decimal(12,2)
 as $$
 declare nomina_total decimal (12,2);
-begin 
-	
-		select sum( hs.salario) from empleados e, historico_salario hs where 
+begin
+
+		select sum( hs.salario) from empleados e, historico_salario hs where
 		e.id_sucursal=sucursal and hs.id_empleado=e.id and  hs.fecha_fin isnull into nomina_total;
-	
+
 	return nomina_total;
-	
+
 end; $$ language plpgsql;
+
 
 CREATE OR REPLACE FUNCTION id_ultima_compra_inventario_producto(id_p INTEGER,id_s INTEGER)
 RETURNS INTEGER AS $id_ult_comp$
@@ -329,3 +340,43 @@ BEGIN
 
 END; $total$
 LANGUAGE plpgsql;
+
+
+-- Reporte de productos mas vendidos (7)
+CREATE OR REPLACE FUNCTION public.get_most_sold_products(query_id int DEFAULT NULL)
+RETURNS TABLE("Id" integer, "Producto" character varying, "Precio" numeric, "Ventas" bigint)
+LANGUAGE plpgsql
+AS $function$
+BEGIN
+  RETURN QUERY
+    SELECT p.id, p.nombre, hp.precio, SUM(df.cantidad) AS cantidad_total
+    FROM productos p
+    JOIN compras_inventario ci ON p.id = ci.id_producto
+    JOIN sucursales s ON s.id = ci.id_sucursal
+    JOIN historico_precios hp ON hp.id_producto = p.id
+    JOIN detalle_factura df ON p.id = df.id_producto
+    JOIN factura f ON f.id = df.id_factura
+    WHERE (s.id = query_id OR query_id IS NULL) AND hp.fecha_fin IS NULL
+    GROUP BY p.id, p.nombre, hp.precio
+    ORDER BY cantidad_total DESC;
+END;
+$function$
+
+-- Reporte para mejores clientes (8)
+CREATE OR REPLACE FUNCTION public.get_best_clients(query_id integer DEFAULT NULL::integer)
+ RETURNS TABLE("Nombre" text, "Monto Total (Bs)" numeric)
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+  RETURN QUERY
+    SELECT (c.datos).nombre1 || ' ' || (c.datos).apellido1 as "Nombre", SUM(f.monto) as "Monto Total (Bs)"
+    FROM clientes c
+    JOIN factura f ON c.id = f.id_cliente
+    JOIN detalle_factura df ON df.id_factura = f.id
+    JOIN empleados e ON e.id = f.id_empleado
+    JOIN sucursales s ON s.id = e.id_sucursal
+    WHERE (s.id = query_id OR query_id IS NULL)
+    GROUP BY c.id, (c.datos).nombre1, (c.datos).apellido1
+    ORDER BY SUM(f.monto) DESC;
+END;
+$function$
