@@ -414,4 +414,86 @@ BEGIN
     GROUP BY c.id, (c.datos).nombre1, (c.datos).apellido1
     ORDER BY SUM(f.monto) DESC;
 END;
-$function$;
+
+$function$
+
+CREATE OR REPLACE FUNCTION reporte_ausencia_empleados_mensual(
+    IN mes INTEGER,
+    IN anio INTEGER,
+    IN identSucursal INTEGER
+)
+RETURNS TABLE (
+    
+	fecha DATE,
+    id_empleado INTEGER,
+    nombre_empleado VARCHAR(80),
+	apellido_empleado VARCHAR(80),
+    motivo_ausencia VARCHAR(100)
+)
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT a.fecha, a.id_empleado, (e.datos::datos_personales).nombre1 as nombre_empleado, (e.datos::datos_personales).apellido1 AS apellido_empleado, a.motivo_ausencia
+    FROM asistencia a
+    INNER JOIN historico_turno ht ON a.id_empleado = ht.id_empleado AND a.id_turno = ht.id_turno AND a.fecha_turno = ht.fecha_inicio
+    INNER JOIN empleados e ON a.id_empleado = e.id
+    WHERE EXTRACT(MONTH FROM a.fecha) = mes
+    AND EXTRACT(YEAR FROM a.fecha) = anio
+    AND e.id_sucursal = identSucursal
+    AND a.motivo_ausencia IS NOT NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION reporte_venta_mas_productos_mensual(
+    IN mes INTEGER,
+    IN anio INTEGER,
+    IN identSucursal INTEGER
+)
+RETURNS TABLE (
+    id_producto INTEGER,
+    nombre_producto VARCHAR(40),
+    cantidad_vendida bigint
+)
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT df.id_producto, prod.nombre, SUM(df.cantidad) AS cantidad_vendida
+    FROM detalle_factura df
+    INNER JOIN factura f ON df.id_factura = f.id
+    INNER JOIN productos prod ON df.id_producto = prod.id
+    INNER JOIN empleados e ON f.id_empleado = e.id
+    WHERE EXTRACT(MONTH FROM f.fecha) = mes
+    AND EXTRACT(YEAR FROM f.fecha) = anio
+    AND e.id_sucursal = identSucursal
+    GROUP BY df.id_producto, prod.nombre
+    ORDER BY cantidad_vendida DESC;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION reporte_venta_menos_productos_mensual(
+    IN mes INTEGER,
+    IN anio INTEGER,
+    IN identSucursal INTEGER
+)
+RETURNS TABLE (
+    id_producto INTEGER,
+    nombre_producto VARCHAR(40),
+    cantidad_vendida bigint
+)
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT df.id_producto, prod.nombre, SUM(df.cantidad) AS cantidad_vendida
+    FROM detalle_factura df
+    INNER JOIN factura f ON df.id_factura = f.id
+    INNER JOIN productos prod ON df.id_producto = prod.id
+    INNER JOIN empleados e ON f.id_empleado = e.id
+    WHERE EXTRACT(MONTH FROM f.fecha) = mes
+    AND EXTRACT(YEAR FROM f.fecha) = anio
+    AND e.id_sucursal = identSucursal
+    GROUP BY df.id_producto, prod.nombre
+    ORDER BY cantidad_vendida asc;
+END;
+$$ LANGUAGE plpgsql;
+
+
