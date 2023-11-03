@@ -415,7 +415,7 @@ BEGIN
     ORDER BY SUM(f.monto) DESC;
 END;
 
-$function$
+$function$;
 
 CREATE OR REPLACE FUNCTION reporte_ausencia_empleados_mensual(
     IN mes INTEGER,

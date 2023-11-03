@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="mejores_clientes" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e91e8e14-5477-498e-84cf-584a2411ecd4">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="tegdP1Docker"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="postgreDocker"/>
 	<parameter name="ID_sucursal" class="java.lang.Integer">
 		<parameterDescription><![CDATA[id sucursal]]></parameterDescription>
 		<defaultValueExpression><![CDATA[$P{ID_sucursal}]]></defaultValueExpression>
 	</parameter>
 	<parameter name="Anno" class="java.lang.Integer">
-		<parameterDescription><![CDATA[Año ]]></parameterDescription>
+		<parameterDescription><![CDATA[Año]]></parameterDescription>
 		<defaultValueExpression><![CDATA[$P{Anno}]]></defaultValueExpression>
 	</parameter>
 	<parameter name="Mes" class="java.lang.Integer">
@@ -16,10 +16,7 @@
 		<defaultValueExpression><![CDATA[$P{Mes}]]></defaultValueExpression>
 	</parameter>
 	<queryString language="SQL">
-		<![CDATA[SELECT * FROM reporte_ausencia_empleados_mensual($P{Mes}, $P{Anno}, $P{ID_sucursal});
-
-
-]]>
+		<![CDATA[SELECT * FROM reporte_ausencia_empleados_mensual($P{Mes}, $P{Anno}, $P{ID_sucursal});]]>
 	</queryString>
 	<field name="fecha" class="java.sql.Date">
 		<property name="com.jaspersoft.studio.field.name" value="fecha"/>
