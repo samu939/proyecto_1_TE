@@ -224,9 +224,9 @@ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION gasto_particulares_en_rango_tabla(id_s INTEGER, fecha_inicio DATE, fecha_fin DATE)
 RETURNS TABLE(
-	fecha historico_gastos_particulares.fecha%type,
-	monto historico_gastos_particulares.monto%type,
-	descripcion historico_gastos_particulares.descripcion%type
+	fecha DATE,
+	monto DECIMAL(10,2),
+	descripcion VARCHAR(120)
 ) AS $total$
 BEGIN
 
@@ -272,7 +272,7 @@ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION gastos_nomina_en_rango_tabla(id_s INTEGER, fecha_inicio DATE, fecha_fin DATE)
 RETURNS TABLE(
 	mes varchar(20),
-	costo historico_salario.salario%type
+	costo decimal(10,2)
 ) AS $$
 DECLARE fecha_i DATE; fecha_f DATE; temp_date DATE; m_between INTEGER; nom_mes historico_salario.salario%type;
 
@@ -282,7 +282,7 @@ BEGIN
 
 	CREATE TEMP TABLE nom_mes_table(
 		mes varchar(20),
-		costo numeric(10,2)
+		costo decimal(10,2)
 	);
 
 	SELECT into fecha_f date_trunc('month', fecha_fin)::DATE;
@@ -305,7 +305,7 @@ BEGIN
 		SELECT SUM(salario_emp_mes(e.id,temp_date)) INTO nom_mes
 		FROM empleados e WHERE e.id_sucursal = id_s;
 
-		INSERT INTO nom_mes_table (mes,costo) VALUES (TO_CHAT(temp_date,'Mon, yyyy'),nom_mes);
+		INSERT INTO nom_mes_table (mes,costo) VALUES (TO_CHAR(temp_date,'Mon, yyyy'),nom_mes);
 
 	end loop;
 
