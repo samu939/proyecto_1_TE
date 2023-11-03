@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 8.2.0.final using JasperReports Library version 6.20.3-415f9428cffdb6805c6f85bbb29ebaf18813a2ab  -->
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="mejores_clientes" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e91e8e14-5477-498e-84cf-584a2411ecd4">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SupermercadoDB"/>
@@ -49,7 +49,8 @@
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Britannic Bold" size="19"/>
 				</textElement>
-				<text><![CDATA[Clientes que más gastan en la sucursal: ]]></text>
+				<text><![CDATA[1. Ausencia de empleados mensualmente por Sucursal
+]]></text>
 			</staticText>
 		</band>
 	</pageHeader>

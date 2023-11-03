@@ -1,6 +1,6 @@
 TRUNCATE asistencia, cargos, clientes, compras_inventario, dias, dias_turnos, empleados, factura,
 historico_alquiler, historico_cargo, historico_gastos_particulares, historico_precios, historico_promociones,
-historico_salario, historico_turno, lugares_geo, productos, proveedores, sucursales, turnos CASCADE;
+historico_salario, historico_turno, lugares_geo, productos, proveedores, sucursales, turnos  RESTART IDENTITY CASCADE;
 
 INSERT INTO productos (nombre, descripcion)
 VALUES
