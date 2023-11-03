@@ -342,25 +342,32 @@ END; $total$
 LANGUAGE plpgsql;
 
 
--- Reporte de productos mas vendidos (7)
-CREATE OR REPLACE FUNCTION public.get_most_sold_products(inicio date, query_id integer DEFAULT NULL::integer, fin date DEFAULT CURRENT_DATE)
-RETURNS TABLE("Id" integer, "Producto" character varying, "Precio" numeric, "Ventas" bigint)
-LANGUAGE plpgsql
+-- Reporte de productos mas rentables (7)
+CREATE OR REPLACE FUNCTION public.get_most_profitable_products(inicio date, query_id integer DEFAULT NULL::integer, fin date DEFAULT CURRENT_DATE)
+ RETURNS TABLE("Id" integer, "Producto" character varying, "Ventas (Bs)" numeric, "Compras (Bs)" numeric, "Rentabilidad (Bs)" numeric)
+ LANGUAGE plpgsql
 AS $function$
 BEGIN
   RETURN QUERY
-    SELECT p.id, p.nombre, hp.precio, SUM(df.cantidad) AS cantidad_total
+    SELECT
+      p.id,
+      p.nombre,
+      SUM(df.cantidad * hp.precio) AS total_ventas,
+      SUM(pci.cantidad * precio_unidad) AS total_compras,
+      SUM(df.cantidad * hp.precio) - SUM(pci.cantidad * precio_unidad) AS "Rentabilidad"
     FROM productos p
     JOIN compras_inventario ci ON p.id = ci.id_producto
+    JOIN proveedores_compras_inventario pci ON ci.id = pci.id_compra_inventario
     JOIN sucursales s ON s.id = ci.id_sucursal
     JOIN historico_precios hp ON hp.id_producto = p.id
     JOIN detalle_factura df ON p.id = df.id_producto
     JOIN factura f ON f.id = df.id_factura
     WHERE (s.id = query_id OR query_id IS NULL) AND hp.fecha_fin IS NULL AND f.fecha BETWEEN inicio AND fin
     GROUP BY p.id, p.nombre, hp.precio
-    ORDER BY cantidad_total DESC;
+    ORDER BY total_ventas DESC;
 END;
 $function$
+
 
 -- Reporte para mejores clientes (8)
 CREATE OR REPLACE FUNCTION public.get_best_clients(inicio date, query_id integer DEFAULT NULL::integer, fin date DEFAULT CURRENT_DATE)
