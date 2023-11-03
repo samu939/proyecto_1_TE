@@ -76,22 +76,14 @@ INSERT INTO empleados (datos, genero, fecha_nacimiento, activo, id_sucursal) VAL
 
 INSERT INTO historico_salario (id_empleado, fecha_inicio, salario)
 VALUES
-  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'John'), '01-01-2023', 600),
-  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Jane'), '01-01-2023', 500),
-  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Robert'), '01-01-2023', 400),
-  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Emily'), '01-01-2023', 600),
-  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Michael'), '01-01-2023', 350),
-  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Sophia'), '01-01-2023', 300),
-  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'David'), '01-01-2023', 200),
-  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Olivia'), '01-01-2023', 250),
-  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'John'), '04-01-2023', 660),
-  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Jane'), '05-10-2023', 570),
-  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Robert'), '02-01-2023', 500),
-  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Emily'), '06-01-2023', 800),
-  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Michael'), '01-15-2023', 450),
-  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Sophia'), '03-20-2023', 380),
-  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'David'), '07-01-2023', 400),
-  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Olivia'), '09-01-2023', 300);
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'John'), '01-01-2022', 600),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Jane'), '01-01-2022', 500),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Robert'), '01-01-2022', 400),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Emily'), '01-01-2022', 600),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Michael'), '01-01-2022', 350),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Sophia'), '01-01-2022', 300),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'David'), '01-01-2022', 200),
+  ((SELECT id FROM empleados WHERE (datos).nombre1 = 'Olivia'), '01-01-2022', 250);
 
 INSERT INTO cargos (nombre)
 VALUES
