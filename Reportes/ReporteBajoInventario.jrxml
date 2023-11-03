@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteNomina" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="98951418-5c55-4dc4-b29f-e3a5c515af89">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="postgreDocker"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="sucursal" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select * from nivel_inventario_sucursal ($P{sucursal});]]>
+	</queryString>
+	<field name="producto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="producto"/>
+		<property name="com.jaspersoft.studio.field.label" value="producto"/>
+	</field>
+	<field name="nivel_inventario" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="nivel_inventario"/>
+		<property name="com.jaspersoft.studio.field.label" value="nivel_inventario"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="111" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<rectangle>
+				<reportElement x="-7" y="0" width="460" height="101" backcolor="#F8F5EE" uuid="ff6ba95e-04cc-44d0-941a-c4b6e591d0e8"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="-3" y="31" width="450" height="40" uuid="9a291ed1-8404-40c4-bc68-a13735379320"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Britannic Bold" size="33"/>
+				</textElement>
+				<text><![CDATA[EL EMPORIO DEL BUEN GUSTO]]></text>
+			</staticText>
+			<image>
+				<reportElement x="453" y="0" width="107" height="107" forecolor="#F8F5EE" backcolor="#F8F5EE" uuid="f95a77a2-e496-4df9-aa45-0a54c2e22c70">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA["imagenes/_ef703704-a3d4-4a83-87d5-63f01fe8abd3.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="63" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<rectangle>
+				<reportElement x="-7" y="1" width="567" height="50" backcolor="#A8895B" uuid="f92d35e3-0f4f-4083-8245-49ceac5063fa"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="11" width="310" height="30" forecolor="#F6F3EC" uuid="c7d89031-9381-491e-9c37-56ae57783a0d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Britannic Bold" size="25"/>
+				</textElement>
+				<text><![CDATA[Bajo inventario de sucursal]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="320" y="11" width="224" height="30" forecolor="#FFFFFF" uuid="a69869fc-330a-4fda-ada7-219a5f05ee1b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Britannic Bold" size="25"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{sucursal}+ " al " + DATEFORMAT(NOW(),"dd/MM/yyyy")]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="42" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<rectangle>
+				<reportElement x="5" y="7" width="295" height="29" backcolor="#F8F5EE" uuid="81fb4a49-dc8c-4276-b2bc-bb8ba9b867fc">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="333" y="7" width="213" height="29" backcolor="#A8895B" uuid="89d7c53d-057c-43b7-94e1-f8c8390902ba">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="5" y="6" width="295" height="30" uuid="14f6a845-ec12-4ae8-bd55-a3afeca7bd13">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bbe704a9-d3d2-4c96-ae40-fb93b820a720"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="14"/>
+				</textElement>
+				<text><![CDATA[Producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="333" y="6" width="212" height="30" forecolor="#F5F2E9" backcolor="#F5F2E9" uuid="e61d3c6f-7253-49ca-b5bc-1a2cd009dbfd">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="571f47d0-89d9-4d85-a7fc-373caf9e3416"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="14"/>
+				</textElement>
+				<text><![CDATA[Nivel de inventario]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="38" splitType="Stretch">
+			<textField>
+				<reportElement x="5" y="0" width="295" height="30" uuid="913a6b62-97f7-4e44-bb87-2fa8a21117f5">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="98ec778a-2f59-426e-83ce-46c32d079fe0"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{producto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="333" y="0" width="211" height="30" uuid="98eea4b2-b45d-4168-ac4a-e782032ebecc">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="98ec778a-2f59-426e-83ce-46c32d079fe0"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{nivel_inventario}.multiply(new BigDecimal(100))) + "%"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

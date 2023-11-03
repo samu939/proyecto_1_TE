@@ -224,13 +224,13 @@ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION gasto_particulares_en_rango_tabla(id_s INTEGER, fecha_inicio DATE, fecha_fin DATE)
 RETURNS TABLE(
-	fecha historico_gastos_particulares.fecha%type,
-	monto historico_gastos_particulares.monto%type,
-	descripcion historico_gastos_particulares.descripcion%type
+	fecha DATE,
+	monto DECIMAL(10,2),
+	descripcion VARCHAR(120)
 ) AS $total$
 BEGIN
 
-	RETURN QUERY SELECT fecha,monto,descripcion
+	RETURN QUERY SELECT h.fecha,h.monto,h.descripcion
 		FROM historico_gastos_particulares h
 		WHERE h.id_sucursal = id_s AND h.fecha >= fecha_inicio AND h.fecha <= fecha_fin;
 
@@ -246,6 +246,34 @@ BEGIN
 
 	SELECT SUM(h.monto) INTO total
 		FROM historico_gastos_particulares h
+		WHERE h.id_sucursal = id_s AND h.fecha >= fecha_inicio AND h.fecha <= fecha_fin;
+
+	RETURN total;
+
+END; $total$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION alquiler_en_rango_tabla(id_s INTEGER, fecha_inicio DATE, fecha_fin DATE)
+RETURNS TABLE(
+	fecha DATE,
+	monto DECIMAL(10,2)
+) AS $$
+BEGIN
+
+	RETURN QUERY SELECT h.fecha,h.monto
+		FROM historico_alquiler h
+		WHERE h.id_sucursal = id_s AND h.fecha >= fecha_inicio AND h.fecha <= fecha_fin;
+
+END; $$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION alquiler_en_rango(id_s INTEGER, fecha_inicio DATE, fecha_fin DATE)
+RETURNS float AS $total$
+DECLARE total float;
+BEGIN
+
+	SELECT SUM(h.monto) INTO total
+		FROM historico_alquiler h
 		WHERE h.id_sucursal = id_s AND h.fecha >= fecha_inicio AND h.fecha <= fecha_fin;
 
 	RETURN total;
@@ -272,7 +300,7 @@ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION gastos_nomina_en_rango_tabla(id_s INTEGER, fecha_inicio DATE, fecha_fin DATE)
 RETURNS TABLE(
 	mes varchar(20),
-	costo historico_salario.salario%type
+	costo decimal(10,2)
 ) AS $$
 DECLARE fecha_i DATE; fecha_f DATE; temp_date DATE; m_between INTEGER; nom_mes historico_salario.salario%type;
 
@@ -282,7 +310,7 @@ BEGIN
 
 	CREATE TEMP TABLE nom_mes_table(
 		mes varchar(20),
-		costo numeric(10,2)
+		costo decimal(10,2)
 	);
 
 	SELECT into fecha_f date_trunc('month', fecha_fin)::DATE;
@@ -305,7 +333,7 @@ BEGIN
 		SELECT SUM(salario_emp_mes(e.id,temp_date)) INTO nom_mes
 		FROM empleados e WHERE e.id_sucursal = id_s;
 
-		INSERT INTO nom_mes_table (mes,costo) VALUES (TO_CHAT(temp_date,'Mon, yyyy'),nom_mes);
+		INSERT INTO nom_mes_table (mes,costo) VALUES (TO_CHAR(temp_date,'Mon, yyyy'),nom_mes);
 
 	end loop;
 
@@ -316,7 +344,7 @@ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION gastos_nomina_en_rango(id_s INTEGER, fecha_inicio DATE, fecha_fin DATE)
 RETURNS float AS $total$
-DECLARE total float;
+DECLARE total decimal(10,2);
 BEGIN
 
 	SELECT SUM(costo) INTO total
@@ -342,25 +370,32 @@ END; $total$
 LANGUAGE plpgsql;
 
 
--- Reporte de productos mas vendidos (7)
-CREATE OR REPLACE FUNCTION public.get_most_sold_products(inicio date, query_id integer DEFAULT NULL::integer, fin date DEFAULT CURRENT_DATE)
-RETURNS TABLE("Id" integer, "Producto" character varying, "Precio" numeric, "Ventas" bigint)
-LANGUAGE plpgsql
+-- Reporte de productos mas rentables (7)
+CREATE OR REPLACE FUNCTION public.get_most_profitable_products(inicio date, query_id integer DEFAULT NULL::integer, fin date DEFAULT CURRENT_DATE)
+ RETURNS TABLE("Id" integer, "Producto" character varying, "Ventas (Bs)" numeric, "Compras (Bs)" numeric, "Rentabilidad (Bs)" numeric)
+ LANGUAGE plpgsql
 AS $function$
 BEGIN
   RETURN QUERY
-    SELECT p.id, p.nombre, hp.precio, SUM(df.cantidad) AS cantidad_total
+    SELECT
+      p.id,
+      p.nombre,
+      SUM(df.cantidad * hp.precio) AS total_ventas,
+      SUM(pci.cantidad * precio_unidad) AS total_compras,
+      SUM(df.cantidad * hp.precio) - SUM(pci.cantidad * precio_unidad) AS "Rentabilidad"
     FROM productos p
     JOIN compras_inventario ci ON p.id = ci.id_producto
+    JOIN proveedores_compras_inventario pci ON ci.id = pci.id_compra_inventario
     JOIN sucursales s ON s.id = ci.id_sucursal
     JOIN historico_precios hp ON hp.id_producto = p.id
     JOIN detalle_factura df ON p.id = df.id_producto
     JOIN factura f ON f.id = df.id_factura
     WHERE (s.id = query_id OR query_id IS NULL) AND hp.fecha_fin IS NULL AND f.fecha BETWEEN inicio AND fin
     GROUP BY p.id, p.nombre, hp.precio
-    ORDER BY cantidad_total DESC;
+    ORDER BY total_ventas DESC;
 END;
-$function$
+$function$;
+
 
 -- Reporte para mejores clientes (8)
 CREATE OR REPLACE FUNCTION public.get_best_clients(inicio date, query_id integer DEFAULT NULL::integer, fin date DEFAULT CURRENT_DATE)
@@ -379,6 +414,7 @@ BEGIN
     GROUP BY c.id, (c.datos).nombre1, (c.datos).apellido1
     ORDER BY SUM(f.monto) DESC;
 END;
+
 $function$
 
 CREATE OR REPLACE FUNCTION reporte_ausencia_empleados_mensual(
@@ -459,3 +495,5 @@ BEGIN
     ORDER BY cantidad_vendida asc;
 END;
 $$ LANGUAGE plpgsql;
+
+

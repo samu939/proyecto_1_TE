@@ -11,7 +11,19 @@ VALUES
   ('Harina PAN', 'Harina de maiz para hacer arepas y empanadas'),
   ('Tosticos', 'Hojuelas de maiz fritas'),
   ('Oreo', 'Galletas de chocolate y crema de vainilla'),
-  ('Coca-cola', 'Bebida azucarada efervescente');
+  ('Coca-cola', 'Bebida azucarada efervescente'),
+  ('Manzana', 'Fruta roja'),
+  ('Patilla', 'Fruta gigante verde'),
+  ('Escoba', 'Herramienta de limpieza'),
+  ('Barra de jabon', 'Producto de limpieza personal'),
+  ('Cloro', 'Producto de limpieza del hogar'),
+  ('Pera', 'Fruta verde'),
+  ('Doritos', 'Tostadas de maiz con polvo de sabor a queso'),
+  ('Pepsi', 'Bebida gaseosa azucarada'),
+  ('Marilu', 'Galleta con crema relleno'),
+  ('Vino Gato Negro', 'Vino tinto'),
+  ('Cerveza Polar Lata', 'Polarcita en lata'),
+  ('Ron Cacique', 'Ron añejo 15 años');
 
 INSERT INTO historico_precios (id_producto, fecha_inicio, precio)
 VALUES
@@ -22,7 +34,19 @@ VALUES
   ((SELECT id FROM productos WHERE nombre = 'Harina PAN'), '01-21-2023', 1.5),
   ((SELECT id FROM productos WHERE nombre = 'Tosticos'), '01-21-2023', 3.7),
   ((SELECT id FROM productos WHERE nombre = 'Oreo'), '01-21-2023', 2),
-  ((SELECT id FROM productos WHERE nombre = 'Coca-cola'), '01-21-2023', 3);
+  ((SELECT id FROM productos WHERE nombre = 'Coca-cola'), '01-21-2023', 3),
+  ((SELECT id FROM productos WHERE nombre = 'Manzana'), '01-21-2023', 1.5),
+  ((SELECT id FROM productos WHERE nombre = 'Patilla'), '01-21-2023', 3),
+  ((SELECT id FROM productos WHERE nombre = 'Escoba'), '01-21-2023', 8),
+  ((SELECT id FROM productos WHERE nombre = 'Barra de jabon'), '01-21-2023', 1.5),
+  ((SELECT id FROM productos WHERE nombre = 'Cloro'), '01-21-2023', 5),
+  ((SELECT id FROM productos WHERE nombre = 'Pera'), '01-21-2023', 1.5),
+  ((SELECT id FROM productos WHERE nombre = 'Doritos'), '01-21-2023', 2.7),
+  ((SELECT id FROM productos WHERE nombre = 'Pepsi'), '01-21-2023', 2.5),
+  ((SELECT id FROM productos WHERE nombre = 'Marilu'), '01-21-2023', 2),
+  ((SELECT id FROM productos WHERE nombre = 'Vino Gato Negro'), '01-21-2023', 5),
+  ((SELECT id FROM productos WHERE nombre = 'Cerveza Polar Lata'), '01-21-2023', 0.9),
+  ((SELECT id FROM productos WHERE nombre = 'Ron Cacique'), '01-21-2023', 10);
 
 INSERT INTO historico_promociones (id_producto, fecha_inicio_precio, fecha_inicio, fecha_fin,descuento)
 VALUES
@@ -163,7 +187,10 @@ VALUES
   ('Nabisco', 'El Rosal, calle el Perro', '04165698740'),
   ('Bimbo', 'Altamira, calle la Tucupita', '04127921682'),
   ('Capri', 'La Candelaria, calle la Rosita', '04166987742'),
-  ('Santa Teresa', 'Maracay, hacienda Santa Teresa', '04149623301');
+  ('Santa Teresa', 'Maracay, hacienda Santa Teresa', '04149623301'),
+  ('Dove', 'La Trinidad, Piedra Azul', '0414825309'),
+  ('Las Llaves', 'Santa Mónica', '04242549901'),
+  ('Licores Mundiales', 'Prados del Este, Av. Principal', '04167453326');
 
 INSERT INTO lugares_geo (nombre, tipo)
 VALUES
@@ -190,17 +217,32 @@ INSERT INTO historico_gastos_particulares (id_sucursal, fecha, monto, descripcio
 VALUES
   ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '01-08-2023', 80, 'Mantenimiento de cajeros'),
   ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '01-12-2023', 30, 'Mantenimiento de neveras'),
-  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), '01-20-2023', 300, 'Compra de equipos de refrigeracion'),
-  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), '01-21-2023', 30, 'Productos de limpieza'),
-  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), '01-11-2023', 200, 'Gastos legales'),
-  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), '01-17-2023', 70, 'Mantenimiento de luces');
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '03-08-2023', 150, 'Compra de equipo computacional'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '04-11-2023', 30, 'Reparacion filtracion de agua'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '04-18-2023', 50, 'Gastos legales'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '06-29-2023', 60, 'Pago a abogados'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '07-01-2023', 80, 'Mantenimiento de anaqueles'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '08-15-2023', 80, 'Mantenimiento de neveras'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), '01-20-2023', 80, 'Compra de equipos de refrigeracion'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), '03-21-2023', 40, 'Productos de limpieza'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), '03-26-2023', 30, 'Mantenimiento de neveras'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), '04-21-2023', 40, 'Productos de limpieza'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), '01-11-2023', 100, 'Gastos legales'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), '01-17-2023', 70, 'Mantenimiento de luces'),
+  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), '03-17-2023', 50, 'Mantenimiento de cajeros');
 
 INSERT INTO historico_alquiler (id_sucursal, fecha, monto)
 VALUES
-  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '01-01-2023', 1200),
-  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), '01-01-2023', 700),
-  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), '01-01-2023', 800);
-
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '01-01-2023', 500),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), '01-01-2023', 500),
+  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), '01-01-2023', 500),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '01-02-2023', 600),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), '01-02-2023', 500),
+  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), '01-02-2023', 500),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '01-03-2023',600),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), '01-03-2023', 500),
+  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), '01-03-2023', 500);
+  
 INSERT INTO factura (id_cliente, id_empleado, fecha, monto)
 VALUES
   (1, 1, '01-21-2023', 17.5),
