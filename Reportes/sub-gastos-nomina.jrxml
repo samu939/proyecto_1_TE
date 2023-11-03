@@ -1,37 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sub-compra-inv" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="166d64bd-b5c7-4ecf-b616-c7a979e1f88c">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="supermercado\supermercado.jrdax"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="postgreDocker"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="sucursal" class="java.lang.Integer"/>
-	<parameter name="fecha_inicio" class="java.sql.Date"/>
-	<parameter name="fecha_fin" class="java.sql.Date"/>
+	<parameter name="fecha_inicio" class="java.sql.Date">
+		<defaultValueExpression><![CDATA[DATE(2023,01,01)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fecha_fin" class="java.sql.Date">
+		<defaultValueExpression><![CDATA[DATE(2023,02,01)]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[select * from gasto_particulares_en_rango_tabla($P{sucursal} ,$P{fecha_inicio},$P{fecha_fin})]]>
+		<![CDATA[select * from gastos_nomina_en_rango_tabla($P{sucursal} ,$P{fecha_inicio},$P{fecha_fin})]]>
 	</queryString>
-	<field name="fecha" class="java.sql.Date">
-		<property name="com.jaspersoft.studio.field.name" value="fecha"/>
-		<property name="com.jaspersoft.studio.field.label" value="fecha"/>
+	<field name="mes" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="mes"/>
+		<property name="com.jaspersoft.studio.field.label" value="mes"/>
 	</field>
-	<field name="producto" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="producto"/>
-		<property name="com.jaspersoft.studio.field.label" value="producto"/>
-	</field>
-	<field name="proveedor" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="proveedor"/>
-		<property name="com.jaspersoft.studio.field.label" value="proveedor"/>
-	</field>
-	<field name="cantidad" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="cantidad"/>
-		<property name="com.jaspersoft.studio.field.label" value="cantidad"/>
-	</field>
-	<field name="precio_unidad" class="java.math.BigDecimal">
-		<property name="com.jaspersoft.studio.field.name" value="precio_unidad"/>
-		<property name="com.jaspersoft.studio.field.label" value="precio_unidad"/>
-	</field>
-	<field name="gasto_transporte" class="java.math.BigDecimal">
-		<property name="com.jaspersoft.studio.field.name" value="gasto_transporte"/>
-		<property name="com.jaspersoft.studio.field.label" value="gasto_transporte"/>
+	<field name="costo" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="costo"/>
+		<property name="com.jaspersoft.studio.field.label" value="costo"/>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
