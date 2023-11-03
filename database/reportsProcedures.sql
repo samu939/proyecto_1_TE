@@ -253,6 +253,34 @@ BEGIN
 END; $total$
 LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION alquiler_en_rango_tabla(id_s INTEGER, fecha_inicio DATE, fecha_fin DATE)
+RETURNS TABLE(
+	fecha DATE,
+	monto DECIMAL(10,2)
+) AS $$
+BEGIN
+
+	RETURN QUERY SELECT h.fecha,h.monto
+		FROM historico_alquiler h
+		WHERE h.id_sucursal = id_s AND h.fecha >= fecha_inicio AND h.fecha <= fecha_fin;
+
+END; $$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION alquiler_en_rango(id_s INTEGER, fecha_inicio DATE, fecha_fin DATE)
+RETURNS float AS $total$
+DECLARE total float;
+BEGIN
+
+	SELECT SUM(h.monto) INTO total
+		FROM historico_alquiler h
+		WHERE h.id_sucursal = id_s AND h.fecha >= fecha_inicio AND h.fecha <= fecha_fin;
+
+	RETURN total;
+
+END; $total$
+LANGUAGE plpgsql;
+
 CREATE OR REPLACE FUNCTION salario_emp_mes(id_e INTEGER, fecha DATE)
 RETURNS float AS $$
 DECLARE salario float;

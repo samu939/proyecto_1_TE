@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sub-compra-inv" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="166d64bd-b5c7-4ecf-b616-c7a979e1f88c">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="postgreDocker"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="sucursal" class="java.lang.Integer"/>
+	<parameter name="fecha_inicio" class="java.sql.Date"/>
+	<parameter name="fecha_fin" class="java.sql.Date"/>
+	<queryString>
+		<![CDATA[select * from alquiler_en_rango_tabla($P{sucursal} ,$P{fecha_inicio},$P{fecha_fin})]]>
+	</queryString>
+	<field name="fecha" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="fecha"/>
+		<property name="com.jaspersoft.studio.field.label" value="fecha"/>
+	</field>
+	<field name="monto" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="monto"/>
+		<property name="com.jaspersoft.studio.field.label" value="monto"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="53">
+			<rectangle>
+				<reportElement x="0" y="5" width="318" height="43" backcolor="#F8F5EE" uuid="325b7472-4191-4e89-9316-e9816ac62db0">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="5" width="308" height="44" uuid="f1dff8af-9045-480f-becb-363326821b3c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bbe704a9-d3d2-4c96-ae40-fb93b820a720"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="16"/>
+				</textElement>
+				<text><![CDATA[Gastos alquiler]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="30">
+			<rectangle>
+				<reportElement x="0" y="0" width="187" height="29" backcolor="#F8F5EE" uuid="a2998c8d-27eb-4d96-b1ce-d6aa9f278a42">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="187" y="1" width="348" height="29" backcolor="#A8895B" uuid="93c5f880-ac2a-4c5f-a9dc-a2ef2d61062d">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="-1" width="187" height="30" uuid="d498e86a-87cd-4390-a850-d77529142d2e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bbe704a9-d3d2-4c96-ae40-fb93b820a720"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="14"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="187" y="0" width="348" height="30" forecolor="#FFFFFF" uuid="2a6ec05d-c756-4a8c-b448-702e6f9fc0ae">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bbe704a9-d3d2-4c96-ae40-fb93b820a720"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="14"/>
+				</textElement>
+				<text><![CDATA[Monto]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="187" height="30" uuid="4e45a7b1-c9a1-4d5c-8347-7c11ab171e16">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="98ec778a-2f59-426e-83ce-46c32d079fe0"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[DATEFORMAT($F{fecha},"dd/MM/yyyy" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="187" y="0" width="348" height="30" uuid="41d850ff-65c9-463d-82e7-8443a38c98ca">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="98ec778a-2f59-426e-83ce-46c32d079fe0"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{monto} + "$"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="30">
+			<subreport>
+				<reportElement x="310" y="0" width="225" height="30" uuid="e83dcd37-6333-486a-90bc-8f61b4c2aaaf"/>
+				<subreportParameter name="sucursal">
+					<subreportParameterExpression><![CDATA[$P{sucursal}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="fecha_inicio">
+					<subreportParameterExpression><![CDATA[$P{fecha_inicio}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="fecha_fin">
+					<subreportParameterExpression><![CDATA[$P{fecha_fin}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["sub_total_gasto_alquiler.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

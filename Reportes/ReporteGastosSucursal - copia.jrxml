@@ -106,7 +106,7 @@
 				<subreportExpression><![CDATA["sub-gastos-particulares.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="66">
+		<band height="56">
 			<subreport>
 				<reportElement x="2" y="0" width="548" height="40" uuid="7660fac6-2e2e-46ba-b427-88e00bf06367"/>
 				<subreportParameter name="sucursal">
@@ -120,6 +120,22 @@
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA["sub-gastos-nomina.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="70">
+			<subreport>
+				<reportElement x="0" y="0" width="550" height="60" uuid="28acebc5-2956-43dd-8fa1-f8304da33d76"/>
+				<subreportParameter name="sucursal">
+					<subreportParameterExpression><![CDATA[$P{sucursal}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="fecha_inicio">
+					<subreportParameterExpression><![CDATA[$P{fecha_inicio}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="fecha_fin">
+					<subreportParameterExpression><![CDATA[$P{fecha_fin}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["sub-gasto-alquiler.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

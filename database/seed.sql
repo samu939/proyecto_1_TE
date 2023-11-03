@@ -14,7 +14,7 @@ VALUES
   ('Coca-cola', 'Bebida azucarada efervescente'),
   ('Manzana', 'Fruta roja'),
   ('Patilla', 'Fruta gigante verde'),
-  ('Escobas', 'Herramienta de limpieza'),
+  ('Escoba', 'Herramienta de limpieza'),
   ('Barra de jabon', 'Producto de limpieza personal'),
   ('Cloro', 'Producto de limpieza del hogar'),
   ('Pera', 'Fruta verde'),
@@ -243,7 +243,13 @@ INSERT INTO historico_alquiler (id_sucursal, fecha, monto)
 VALUES
   ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '01-01-2023', 500),
   ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), '01-01-2023', 500),
-  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), '01-01-2023', 500);
+  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), '01-01-2023', 500),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '01-02-2023', 600),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), '01-02-2023', 500),
+  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), '01-02-2023', 500),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Urdaneta'), '01-03-2023',600),
+  ((SELECT id FROM sucursales WHERE direccion = 'Calle Sucre'), '01-03-2023', 500),
+  ((SELECT id FROM sucursales WHERE direccion = 'Veracruz'), '01-03-2023', 500);
   
 INSERT INTO factura (id_cliente, id_empleado, fecha, monto)
 VALUES
