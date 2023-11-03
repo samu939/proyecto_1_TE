@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sub_total_compra_inv" pageWidth="220" pageHeight="842" columnWidth="220" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2a4a9a55-f869-4ad8-9423-c2919f551f07">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="supermercado\supermercado.jrdax"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="postgreDocker"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="sucursal" class="java.lang.Integer"/>
-	<parameter name="fecha_inicio" class="java.sql.Date"/>
-	<parameter name="fecha_fin" class="java.sql.Date"/>
+	<parameter name="fecha_inicio" class="java.sql.Date">
+		<defaultValueExpression><![CDATA[DATE(2023,01,01)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fecha_fin" class="java.sql.Date">
+		<defaultValueExpression><![CDATA[DATE(2023,02,01)]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[select gasto_particulares_en_rango as total from gasto_particulares_en_rango( $P{sucursal},  $P{fecha_inicio} , $P{fecha_fin} )]]>
+		<![CDATA[select gastos_nomina_en_rango as total from gastos_nomina_en_rango( $P{sucursal},  $P{fecha_inicio} , $P{fecha_fin} )]]>
 	</queryString>
 	<field name="total" class="java.lang.Double">
 		<property name="com.jaspersoft.studio.field.name" value="total"/>

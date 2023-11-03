@@ -316,7 +316,7 @@ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION gastos_nomina_en_rango(id_s INTEGER, fecha_inicio DATE, fecha_fin DATE)
 RETURNS float AS $total$
-DECLARE total float;
+DECLARE total decimal(10,2);
 BEGIN
 
 	SELECT SUM(costo) INTO total
