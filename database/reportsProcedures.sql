@@ -360,7 +360,7 @@ BEGIN
     GROUP BY p.id, p.nombre, hp.precio
     ORDER BY cantidad_total DESC;
 END;
-$function$
+$function$;
 
 -- Reporte para mejores clientes (8)
 CREATE OR REPLACE FUNCTION public.get_best_clients(inicio date, query_id integer DEFAULT NULL::integer, fin date DEFAULT CURRENT_DATE)
@@ -379,4 +379,4 @@ BEGIN
     GROUP BY c.id, (c.datos).nombre1, (c.datos).apellido1
     ORDER BY SUM(f.monto) DESC;
 END;
-$function$
+$function$;
