@@ -230,7 +230,7 @@ RETURNS TABLE(
 ) AS $total$
 BEGIN
 
-	RETURN QUERY SELECT fecha,monto,descripcion
+	RETURN QUERY SELECT h.fecha,h.monto,h.descripcion
 		FROM historico_gastos_particulares h
 		WHERE h.id_sucursal = id_s AND h.fecha >= fecha_inicio AND h.fecha <= fecha_fin;
 
