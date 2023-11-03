@@ -2,17 +2,17 @@ create or replace function gastos_mes (sucursal int, fecha_reporte date) returns
 as $$
 declare gastos decimal (12,2);
 
-begin 
-	
-	select coalesce ((select sum(ha.monto) from historico_alquiler ha 
+begin
+
+	select coalesce ((select sum(ha.monto) from historico_alquiler ha
 		where ha.id_sucursal = sucursal and to_char(ha.fecha, 'YYYY-MM') = to_char(fecha_reporte, 'YYYY-MM')),0)
-		+ coalesce((select sum(hgp.monto) from historico_gastos_particulares hgp 
+		+ coalesce((select sum(hgp.monto) from historico_gastos_particulares hgp
 		where hgp.id_sucursal = sucursal and to_char(hgp.fecha, 'YYYY-MM') = to_char(fecha_reporte, 'YYYY-MM')),0)
-		+ coalesce((select sum((ci.precio_unidad * ci.cantidad)+ci.gasto_transporte) from proveedores_compras_inventario ci, compras_inventario com  
+		+ coalesce((select sum((ci.precio_unidad * ci.cantidad)+ci.gasto_transporte) from proveedores_compras_inventario ci, compras_inventario com
 		where com.id_sucursal = sucursal and to_char(ci.fecha, 'YYYY-MM') = to_char(fecha_reporte, 'YYYY-MM') and com.id=ci.id_compra_inventario),0)
-		+coalesce ((select sum( hs.salario) from empleados e, historico_salario hs where 
-		e.id_sucursal=sucursal and hs.id_empleado=e.id and ((hs.fecha_inicio < fecha_reporte and hs.fecha_fin isnull) 
-		or (hs.fecha_fin > fecha_reporte and hs.fecha_inicio < fecha_reporte))),0) 
+		+coalesce ((select sum( hs.salario) from empleados e, historico_salario hs where
+		e.id_sucursal=sucursal and hs.id_empleado=e.id and ((hs.fecha_inicio < fecha_reporte and hs.fecha_fin isnull)
+		or (hs.fecha_fin > fecha_reporte and hs.fecha_inicio < fecha_reporte))),0)
 
 	    into gastos;
 
@@ -24,10 +24,10 @@ create or replace function ganancias_mes (sucursal int, fecha_reporte date) retu
 as $$
 declare ganancias decimal (12,2);
 
-begin 
-	
-	select coalesce ((select sum(f.monto) from factura f, empleados e 
-		where e.id_sucursal = sucursal and f.id_empleado=e.id and 
+begin
+
+	select coalesce ((select sum(f.monto) from factura f, empleados e
+		where e.id_sucursal = sucursal and f.id_empleado=e.id and
 		to_char(f.fecha , 'YYYY-MM') = to_char(fecha_reporte, 'YYYY-MM')),0)
 
 	    into ganancias;
@@ -37,39 +37,39 @@ begin
 end; $$ language plpgsql;
 
 
-create or replace function  rentabilidad_sucursales (mes int, ano int) 
-returns table(id_suc int, dir varchar(50),gastos decimal(12,2),ganancias decimal(12,2),total decimal(12,2)) 
+create or replace function  rentabilidad_sucursales (mes int, ano int)
+returns table(id_suc int, dir varchar(50),gastos decimal(12,2),ganancias decimal(12,2),total decimal(12,2))
 as $$
 
-	select s.id, s.direccion, gastos_mes(s.id,(select cast ( cast (ano as varchar) || '-' || cast (mes as varchar) || '-' || '1' as date))) "Gastos", 
+	select s.id, s.direccion, gastos_mes(s.id,(select cast ( cast (ano as varchar) || '-' || cast (mes as varchar) || '-' || '1' as date))) "Gastos",
 	ganancias_mes(s.id,(select cast ( cast (ano as varchar) || '-' || cast (mes as varchar) || '-' || '1' as date))) "Ganancias",
 	ganancias_mes(s.id,(select cast ( cast (ano as varchar) || '-' || cast (mes as varchar) || '-' || '1' as date)))-
-	gastos_mes(s.id,(select cast ( cast (ano as varchar) || '-' || cast (mes as varchar) || '-' || '1' as date))) as "Total" from sucursales s order by "Total" desc; 
-	
+	gastos_mes(s.id,(select cast ( cast (ano as varchar) || '-' || cast (mes as varchar) || '-' || '1' as date))) as "Total" from sucursales s order by "Total" desc;
+
 $$ language sql;
 
-create or replace function horas_extra (emp int,mes int, ano int) 
+create or replace function horas_extra (emp int,mes int, ano int)
 returns table (horasReq decimal(5,2), horasRea decimal(5,2))
 as $$
 declare horas_requeridas decimal (5,2); horas_realizadas decimal (5,2); fecha_reporte date;
-begin 
+begin
 		select cast ( cast (ano as varchar) || '-' || cast (mes as varchar) || '-' || '1' as date) into fecha_reporte;
 
 		select (EXTRACT(epoch FROM sum(dt.hora_salida - dt.hora_entrada))/3600)*4
-		from historico_turno ht ,dias_turnos dt, turnos t 
-		where dt.id_turno=t.id and ht.id_turno=t.id and ht.id_empleado=emp and ((ht.fecha_inicio < fecha_reporte and ht.fecha_fin > fecha_reporte) or 
+		from historico_turno ht ,dias_turnos dt, turnos t
+		where dt.id_turno=t.id and ht.id_turno=t.id and ht.id_empleado=emp and ((ht.fecha_inicio < fecha_reporte and ht.fecha_fin > fecha_reporte) or
 		(ht.fecha_inicio < fecha_reporte and ht.fecha_fin isnull)) into horas_requeridas;
-	
-		select (EXTRACT(epoch FROM sum(a.hora_salida - a.hora_entrada))/3600)from asistencia a 
+
+		select (EXTRACT(epoch FROM sum(a.hora_salida - a.hora_entrada))/3600)from asistencia a
 		where a.id_empleado=emp and to_char(a.fecha, 'YYYY-MM') = to_char(fecha_reporte, 'YYYY-MM')  into horas_realizadas;
-	
+
 
 	return query select horas_requeridas, horas_realizadas;
 
 end; $$ language plpgsql;
 
 
-create or replace function nomina (sucursal int, mes int, ano int) returns 
+create or replace function nomina (sucursal int, mes int, ano int) returns
 
 table (nombre varchar(200), cedula varchar(10), cargo varchar(40),salario decimal (10,2),horasReq decimal(5,2), horasRea decimal(5,2))
 as $$
@@ -80,15 +80,15 @@ as $$
 
 		(select hex.horasReq from horas_extra(e.id,mes,ano) hex) "Horas Requeridas",
 		(select hex.horasRea from horas_extra(e.id,mes,ano) hex) "Horas Realizadas"
-		from historico_cargo hc, historico_salario hs, empleados e, cargos c where 
-		e.id_sucursal=sucursal and hs.id_empleado=e.id and hc.id_empleado=e.id and 
-		((hc.fecha_inicio < (select cast ( cast (ano as varchar) || '-' || cast (mes as varchar) || '-' || '1' as date)) 
-		and hc.fecha_fin isnull) or (hc.fecha_fin > (select cast ( cast (ano as varchar) || '-' || cast (mes as varchar) || '-' || '1' as date)) and 
-		hc.fecha_inicio < (select cast ( cast (ano as varchar) || '-' || cast (mes as varchar) || '-' || '1' as date)))) and 
-		((hs.fecha_inicio < (select cast ( cast (ano as varchar) || '-' || cast (mes as varchar) || '-' || '1' as date)) and hs.fecha_fin isnull) or 
-		(hs.fecha_fin > (select cast ( cast (ano as varchar) || '-' || cast (mes as varchar) || '-' || '1' as date)) and 
-		hs.fecha_inicio < (select cast ( cast (ano as varchar) || '-' || cast (mes as varchar) || '-' || '1' as date)))) and hc.id_cargo=c.id and e.activo = true; 
-	
+		from historico_cargo hc, historico_salario hs, empleados e, cargos c where
+		e.id_sucursal=sucursal and hs.id_empleado=e.id and hc.id_empleado=e.id and
+		((hc.fecha_inicio < (select cast ( cast (ano as varchar) || '-' || cast (mes as varchar) || '-' || '1' as date))
+		and hc.fecha_fin isnull) or (hc.fecha_fin > (select cast ( cast (ano as varchar) || '-' || cast (mes as varchar) || '-' || '1' as date)) and
+		hc.fecha_inicio < (select cast ( cast (ano as varchar) || '-' || cast (mes as varchar) || '-' || '1' as date)))) and
+		((hs.fecha_inicio < (select cast ( cast (ano as varchar) || '-' || cast (mes as varchar) || '-' || '1' as date)) and hs.fecha_fin isnull) or
+		(hs.fecha_fin > (select cast ( cast (ano as varchar) || '-' || cast (mes as varchar) || '-' || '1' as date)) and
+		hs.fecha_inicio < (select cast ( cast (ano as varchar) || '-' || cast (mes as varchar) || '-' || '1' as date)))) and hc.id_cargo=c.id and e.activo = true;
+
 
 $$ language sql;
 
@@ -110,13 +110,13 @@ RETURNS INTEGER AS $id_ult_comp$
 DECLARE
 	id_ult_comp INTEGER;
 BEGIN
-    
+
      	SELECT MAX(ci.id) INTO id_ult_comp
 			FROM compras_inventario ci
 			WHERE ci.id_producto = id_p AND ci.id_sucursal = id_s;
-			
+
 		RETURN id_ult_comp;
-    
+
 END; $id_ult_comp$
 LANGUAGE plpgsql;
 
@@ -125,10 +125,10 @@ RETURNS INTEGER AS $suma$
 DECLARE
 	suma INTEGER;
 BEGIN
-    
+
      	SELECT SUM(cantidad) INTO suma FROM proveedores_compras_inventario
     									 WHERE id_compra_inventario = id_comp_inv;
-    
+
 		RETURN suma;
 
 END; $suma$
@@ -137,16 +137,16 @@ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION nivel_inventario_producto(id_p INTEGER,id_s INTEGER)
 RETURNS decimal(4,2) AS $nivel_inventario$
 DECLARE
-	id_ult_comp INTEGER; inv_rec INTEGER; vendidos INTEGER; inventario INTEGER; nivel_inventario decimal(4,2); 
+	id_ult_comp INTEGER; inv_rec INTEGER; vendidos INTEGER; inventario INTEGER; nivel_inventario decimal(4,2);
 BEGIN
-    
+
     SELECT INTO id_ult_comp id_ultima_compra_inventario_producto(id_p,id_s);
-    
+
     SELECT INTO inv_rec suma_compra_inv(id_ult_comp);
-    
+
     SELECT SUM(df.cantidad) INTO vendidos FROM detalle_factura df
 		INNER JOIN factura f ON df.id_factura = f.id
-		INNER JOIN empleados e ON f.id_empleado = e.id 
+		INNER JOIN empleados e ON f.id_empleado = e.id
 		WHERE df.id_producto = id_p AND e.id_sucursal = id_s;
 
 	SELECT SUM(suma_compra_inv(ci.id)) INTO inventario
@@ -156,7 +156,7 @@ BEGIN
 	nivel_inventario := (inventario-vendidos)/inv_rec::decimal(4,2);
 
 	RETURN nivel_inventario;
-    
+
 END; $nivel_inventario$
 LANGUAGE plpgsql;
 
@@ -167,12 +167,12 @@ RETURNS TABLE (
 ) AS $$
 
 BEGIN
-    
+
     RETURN QUERY
 	SELECT p.nombre, nivel_inventario_producto(p.id,id_s) nivel_inventario
 	FROM productos p
 	WHERE nivel_inventario_producto(p.id,id_s) < 0.30;
-    
+
 END; $$
 LANGUAGE plpgsql;
 
@@ -234,7 +234,7 @@ BEGIN
 		FROM historico_gastos_particulares h
 		WHERE h.id_sucursal = id_s AND h.fecha >= fecha_inicio AND h.fecha <= fecha_fin;
 
-	
+
 
 END; $total$
 LANGUAGE plpgsql;
@@ -332,7 +332,7 @@ RETURNS float AS $total$
 DECLARE total float;
 BEGIN
 
-	total := gastos_nomina_en_rango(id_s,fecha_inicio,fecha_fin) + 
+	total := gastos_nomina_en_rango(id_s,fecha_inicio,fecha_fin) +
 			 gasto_particulares_en_rango(id_s, fecha_inicio, fecha_fin) +
 			 gasto_compra_inv_en_rango(id_s, fecha_inicio, fecha_fin);
 
@@ -343,7 +343,7 @@ LANGUAGE plpgsql;
 
 
 -- Reporte de productos mas vendidos (7)
-CREATE OR REPLACE FUNCTION public.get_most_sold_products(query_id int DEFAULT NULL)
+CREATE OR REPLACE FUNCTION public.get_most_sold_products(inicio date, query_id integer DEFAULT NULL::integer, fin date DEFAULT CURRENT_DATE)
 RETURNS TABLE("Id" integer, "Producto" character varying, "Precio" numeric, "Ventas" bigint)
 LANGUAGE plpgsql
 AS $function$
@@ -356,14 +356,14 @@ BEGIN
     JOIN historico_precios hp ON hp.id_producto = p.id
     JOIN detalle_factura df ON p.id = df.id_producto
     JOIN factura f ON f.id = df.id_factura
-    WHERE (s.id = query_id OR query_id IS NULL) AND hp.fecha_fin IS NULL
+    WHERE (s.id = query_id OR query_id IS NULL) AND hp.fecha_fin IS NULL AND f.fecha BETWEEN inicio AND fin
     GROUP BY p.id, p.nombre, hp.precio
     ORDER BY cantidad_total DESC;
 END;
-$function$;
+$function$
 
 -- Reporte para mejores clientes (8)
-CREATE OR REPLACE FUNCTION public.get_best_clients(query_id integer DEFAULT NULL::integer)
+CREATE OR REPLACE FUNCTION public.get_best_clients(inicio date, query_id integer DEFAULT NULL::integer, fin date DEFAULT CURRENT_DATE)
  RETURNS TABLE("Nombre" text, "Monto Total (Bs)" numeric)
  LANGUAGE plpgsql
 AS $function$
@@ -375,7 +375,7 @@ BEGIN
     JOIN detalle_factura df ON df.id_factura = f.id
     JOIN empleados e ON e.id = f.id_empleado
     JOIN sucursales s ON s.id = e.id_sucursal
-    WHERE (s.id = query_id OR query_id IS NULL)
+    WHERE (s.id = query_id OR query_id IS NULL) AND f.fecha BETWEEN inicio AND fin
     GROUP BY c.id, (c.datos).nombre1, (c.datos).apellido1
     ORDER BY SUM(f.monto) DESC;
 END;
