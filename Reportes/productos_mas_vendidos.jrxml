@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
+<!-- Created with Jaspersoft Studio version 8.2.0.final using JasperReports Library version 6.20.3-415f9428cffdb6805c6f85bbb29ebaf18813a2ab  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="most_sold_products" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f2961cbc-eb4c-4c38-abea-bc17ae47a061">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="postgreDocker"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SupermercadoDB"/>
 	<parameter name="id_sucursal" class="java.lang.Integer"/>
+	<parameter name="fecha_inicio" class="java.sql.Date"/>
+	<parameter name="fecha_fin" class="java.sql.Date"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT * FROM get_most_sold_products( $P{id_sucursal} );]]>
+		<![CDATA[SELECT * FROM get_most_sold_products( $P{fecha_inicio},  $P{id_sucursal},   $P{fecha_fin} );]]>
 	</queryString>
 	<field name="Id" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="Id"/>
@@ -37,7 +39,7 @@
 			</staticText>
 			<image>
 				<reportElement x="440" y="0" width="110" height="104" uuid="32ffe986-80f2-4fcb-bf2e-72fbe152ff38"/>
-				<imageExpression><![CDATA["imagenes/_ef703704-a3d4-4a83-87d5-63f01fe8abd3.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["images/_ef703704-a3d4-4a83-87d5-63f01fe8abd3.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</title>
