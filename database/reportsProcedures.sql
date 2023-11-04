@@ -392,7 +392,7 @@ BEGIN
     JOIN factura f ON f.id = df.id_factura
     WHERE (s.id = query_id OR query_id IS NULL) AND hp.fecha_fin IS NULL AND f.fecha BETWEEN inicio AND fin
     GROUP BY p.id, p.nombre, hp.precio
-    ORDER BY total_ventas DESC;
+    ORDER BY "Rentabilidad" DESC;
 END;
 $function$;
 
