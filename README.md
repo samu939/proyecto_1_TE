@@ -39,6 +39,12 @@ npm run db
 npm run seed
 ```
 
+5. Ejecutar el comando `procedures` en el archivo `package.json`:
+
+```
+npm run procedures
+```
+
 ## Prueba
 
 Una vez que la base de datos esté creada y poblada, puedes probarla conectando a ella con una herramienta GUI como pgAdmin.
@@ -93,6 +99,14 @@ El comando `seed` en el archivo `package.json` agregará datos ficticios adicion
 npm run seed
 ```
 
+7. **Ejecutar el comando `procedures`**
+
+El comando `procedures` en el archivo `package.json` crea las funciones que se usan en los reportes. Para ejecutar el comando, abre una terminal en el directorio del repositorio y ejecuta el siguiente comando:
+
+```
+npm run procedures
+```
+
 7. **Probar la base de datos**
 
 Una vez que la base de datos esté creada y poblada, puedes probarla conectando a ella con una herramienta GUI como pgAdmin.
@@ -104,7 +118,7 @@ Para conectarte a la base de datos con pgAdmin, sigue estos pasos:
 3. En la ventana **Create Server**, ingresa la siguiente información:
    - **Name:** El nombre que quieras darle al servidor.
    - **Host:** `localhost`.
-   - **Port:** `5432`.
+   - **Port:** `4000`.
    - **Username:** `postgres`.
    - **Password:** La contraseña que creaste para el usuario `postgres`.
 4. Haz clic en el botón **Save**.
