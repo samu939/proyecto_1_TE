@@ -107,7 +107,7 @@ El comando `procedures` en el archivo `package.json` crea las funciones que se u
 npm run procedures
 ```
 
-7. **Probar la base de datos**
+8. **Probar la base de datos**
 
 Una vez que la base de datos esté creada y poblada, puedes probarla conectando a ella con una herramienta GUI como pgAdmin.
 
