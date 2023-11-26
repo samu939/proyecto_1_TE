@@ -1,9 +1,9 @@
 {
     "scripts": {
-        "db": "cd database && docker-compose up -d && cd ..",
+        "db": "cd database && docker-compose up -d  && timeout /t 40 && docker-compose exec db psql -U postgres -d supermercado -f reportsProcedures.sql && timeout /t 5 && docker-compose exec db psql -U postgres -d supermercado -f seed.sql && cd ..",
         "droptables": "cd database && docker-compose exec db psql -U postgres -d supermercado -f drop.sql && cd ..",
-        "seed": "cd database && docker-compose exec db psql -U postgres -d supermercado -f seed.sql && cd ..",
-        "procedures": "cd database && docker-compose exec db psql -U postgres -d supermercado -f reportsProcedures.sql && cd ..",
+        "seed": "cd database && docker-compose exec db psql -U postgres -d supermercado -f seed.sql && cd..",
+        "procedures": "cd database && docker-compose exec db psql -U postgres -d supermercado -f reportsProcedures.sql && cd..",
         "drop": "cd database && docker-compose down -v && cd ..",
         "reset": "cd database && docker-compose down -v && docker-compose up -d && cd .."
       }
